@@ -4,7 +4,7 @@ import Link from "next/link";
 async function getProducts(category: string) {
   // console.log(category);
 
-  // this is the category we want from api
+  // this is the category we want from api for now not filtering them
 
   const res = await fetch("https://dummyjson.com/products");
 
