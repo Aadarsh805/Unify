@@ -14,7 +14,7 @@ export default async function signUpWithEmail(payload: {
   } as SignUpWithPasswordCredentials;
   const { data: authData, error: e } = await supabase.auth.signUp(supabaseCred);
 
-  console.log(authData?.user?.id);
+  // console.log(authData?.user?.id);
   if (!e && authData?.user?.id) {
     const { data: user, error } = await supabase.from("users").insert({
       username: payload.username,
