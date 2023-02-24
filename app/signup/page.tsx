@@ -4,7 +4,7 @@ import login_image from "public/assets/images/login_image.jpg";
 
 const signupPage = () => {
   return (
-    <div className="flex min-h-screen w-full flex-wrap content-center justify-center bg-[#F4F1E7] py-10 ">
+    <div className="flex  w-full flex-wrap content-center justify-center bg-[#F4F1E7] py-10 " style={{ height: "calc(100vh - 113px)" }}>
       <div className="flex shadow-md">
         <LoginForm />
 
