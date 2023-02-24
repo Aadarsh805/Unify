@@ -1,12 +1,12 @@
 import Image from "next/image";
-import LoginForm from "../components/LoginForm";
 import login_image from "public/assets/images/login_image.jpg";
+import SignupForm from "../components/SignupForm";
 
 const signupPage = () => {
   return (
     <div className="flex min-h-screen w-full flex-wrap content-center justify-center bg-[#F4F1E7] py-10 ">
       <div className="flex shadow-md">
-        <LoginForm />
+        <SignupForm />
 
         <div
           className="flex flex-wrap content-center justify-center rounded-r-md"
