@@ -1,5 +1,6 @@
 "use client";
 
+import Sidebar from "@/components/explore/Sidebar";
 import { usePathname } from "next/navigation";
 export default function ExploreLayout({
   children,
@@ -12,7 +13,7 @@ export default function ExploreLayout({
 
   return productOrNot <= 2 ? (
     <>
-      {/* sidebar */}
+      <Sidebar />
       {children}
     </>
   ) : (
