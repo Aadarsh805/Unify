@@ -1,3 +1,4 @@
+import LayoutWrapper from "@/components/wrappers/LayoutWrapper";
 import "./globals.css";
 import Head from "./head";
 
@@ -8,8 +9,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-       <Head />
-      <body>{children}</body>
+      <Head />
+      <body>
+        <LayoutWrapper>{children}</LayoutWrapper>
+      </body>
     </html>
   );
 }
