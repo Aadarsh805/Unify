@@ -1,6 +1,20 @@
+import ProductCard from "@/components/explore/ProductCard";
 import Link from "next/link";
 
-const explorePage = () => {
+async function getProducts() {
+  const res = await fetch("https://dummyjson.com/products");
+  return res.json();
+}
+
+type PageProps = {
+  params: {
+    category: string;
+  };
+};
+
+const explorePage = async () => {
+  const products = await getProducts();
+
   return (
     <main className="flex min-h-screen items-center gap-[5rem] px-[4rem]">
       <article className="flex max-w-[25rem] flex-col gap-5">
@@ -21,27 +35,10 @@ const explorePage = () => {
         </Link>
       </article>
       <div className="flex gap-10">
-        {/* card */}
-        <div className="flex h-[22rem] max-w-[17rem] flex-col overflow-hidden rounded-t-[15rem] rounded-b-[.3rem] border-[3px] border-[#Af7A0f]">
-          <img
-            className="h-full w-full object-cover"
-            src="https://fastly.picsum.photos/id/196/536/354.jpg?hmac=C1zNgezDOBJP6WDzRvqD3NLsZwtjX29dlcSShIUFPEc"
-            alt=""
-          />
-          <button className="bg-[#Af7A0f] py-3 text-[#F4F1E7] ">
-            Intrested
-          </button>
-        </div>
-        <div className="flex h-[22rem] max-w-[17rem] flex-col overflow-hidden rounded-t-[15rem] rounded-b-[.3rem] border-[3px] border-[#Af7A0f]">
-          <img
-            className="h-full w-full object-cover"
-            src="https://fastly.picsum.photos/id/196/536/354.jpg?hmac=C1zNgezDOBJP6WDzRvqD3NLsZwtjX29dlcSShIUFPEc"
-            alt=""
-          />
-          <button className="bg-[#Af7A0f] py-3 text-[#F4F1E7] ">
-            Intrested
-          </button>
-        </div>
+        {products &&
+          products.products.map((product: any) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
       </div>
     </main>
   );
