@@ -31,6 +31,7 @@ function ProductCard({ product }: Props) {
   };
 
   return (
+
     <div className="flex h-[22rem] w-[17rem] flex-col overflow-hidden rounded-t-[15rem] rounded-b-[.3rem] border-[3px] border-[#Af7A0f] ">
       <Link href={`/explore/cat/${product.id}`} className="h-[22rem] w-[17rem]">
         <img
@@ -40,6 +41,7 @@ function ProductCard({ product }: Props) {
         />
       </Link>
       {/* todo: if already interested render another button */}
+
       <button
         onClick={() => {
           if (isUser) {

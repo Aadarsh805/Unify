@@ -15,37 +15,28 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { setUserProfile } = useStore((state: any) => ({
-    setUserProfile: state.setUserProfile,
-  }));
+ const onSignIn = async () => {
+    const { data } = await supabase.auth.getUser();
+    const { id }: any = data?.user as any;
+    console.log(id);
+  };
+  // useEffect(() => {
 
-  const authenticateUserSignIn = async () => {
-    try {
-      const { data } = await supabase.auth.getUser();
-      if (data.user) {
-        const { id }: any = data?.user as any;
-        const user = await getUserDetails(id);
-        setUserProfile(user);
-      } else {
-        // if user isn't logged in
-        // erase user details
-        const user = {
-          id: "",
-          username: "",
-          email: "",
-        };
-        setUserProfile(user);
-      }
-    } catch (error) {
-      // authentication failed
-      console.log(error);
-    }
+  //   funct();
+  // }, []);
+
+  // auth-change event
+  const observeAuthChange = async () => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((e, session) => {
+      if (e === "SIGNED_IN") onSignIn();
+    });
+    subscription.callback("SIGNED_IN", null);
   };
 
   useEffect(() => {
-    authenticateUserSignIn();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    observeAuthChange();
   }, []);
 
   return (
