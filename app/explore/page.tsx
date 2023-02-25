@@ -1,5 +1,5 @@
-import ProductCard from "@/components/explore/ProductCard";
 import Link from "next/link";
+import ProductCards from "../components/ProductCards";
 
 async function getProducts() {
   const res = await fetch("https://dummyjson.com/products");
@@ -34,12 +34,7 @@ const explorePage = async () => {
           Donate
         </Link>
       </article>
-      <div className="flex gap-10">
-        {products &&
-          products.products.map((product: any) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-      </div>
+      <ProductCards products={products} />
     </main>
   );
 };
