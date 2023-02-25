@@ -1,4 +1,4 @@
-import ProductCard from "@/components/explore/ProductCard";
+import ProductCards from "@/app/components/ProductCards";
 import Link from "next/link";
 
 async function getProducts(category: string) {
@@ -22,7 +22,7 @@ const categoryPage = async ({ params: { category } }: PageProps) => {
 
   return (
     <main className="flex min-h-screen items-center gap-[5rem] px-[4rem]">
-      <article className="flex max-w-[25rem] flex-col gap-5">
+      <article className="flex w-[30%] flex-col gap-5">
         <h1 className="text-6xl font-bold text-[#1C1C1C]/90">
           Explore Our <span className="text-[#AF7A0F]">Diverse</span> Collection
         </h1>
@@ -39,12 +39,7 @@ const categoryPage = async ({ params: { category } }: PageProps) => {
           Donate
         </Link>
       </article>
-      <div className="flex gap-10">
-        {products &&
-          products.products.map((product: any) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-      </div>
+      <ProductCards products={products} />
     </main>
   );
 };
