@@ -1,5 +1,7 @@
 "use client";
 
+import { noto_serif } from "@/public/assets/fonts/font";
+import Navbar from "./components/Navbar";
 import supabase from "@/server/supabase";
 import { useEffect } from "react";
 import "./globals.css";
@@ -37,7 +39,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Head />
-      <body>{children}</body>
+      <body
+        style={{
+          fontFamily: `${noto_serif.className}`,
+        }}
+        className="bg-[#F4F1E7]"
+      >
+        <Navbar />
+        {children}
+      </body>
     </html>
   );
 }
