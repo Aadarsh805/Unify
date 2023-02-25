@@ -93,8 +93,8 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
   useEffect(() => {
     const getMyInterested = async () => {
       const { data: myData } = await supabase.auth.getUser();
+      if (!myData.user) return;
       const { id: myId }: any = myData.user;
-
       //getting all the products that i interested
       const { data: myInterested } = await supabase
         .from("interested_products")
