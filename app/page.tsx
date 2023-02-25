@@ -1,3 +1,17 @@
+import CreateProfile from "./components/CreateProfile";
+import Hero from "./components/Hero";
+import HeroText from "./components/HeroText";
+import Support from "./components/Support";
+import Tradition from "./components/Tradition";
+
 export default function Home() {
-  return <h1 className="bg-300 p-4 text-4xl">hello!</h1>;
+  return (
+    <div className="bg-[#F4F1E7]">
+      <Hero />
+      <HeroText />
+      <Tradition />
+      <CreateProfile />
+      <Support />
+    </div>
+  );
 }
