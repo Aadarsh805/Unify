@@ -1,35 +1,35 @@
-"use client"
+"use client";
 
 import { open_sans } from "@/public/assets/fonts/font";
 import signInWithEmail from "@/server/signIn";
 import Link from "next/link";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { FC } from "react";
 import useStore from "../store/store";
 
 const LoginForm: FC = () => {
-  const { setEmail, setPassword, email,
-    password
-    } = useStore((state: any) => ({
-    setEmail: state.setEmail,
-    setPassword: state.setPassword,
-    email: state.email,
-    password: state.password
-  }));
-  const router = useRouter()
+  const { setEmail, setPassword, email, password, setUserProfile } = useStore(
+    (state: any) => ({
+      setEmail: state.setEmail,
+      setPassword: state.setPassword,
+      email: state.email,
+      password: state.password,
+      setUserProfile: state.setUserProfile,
+    })
+  );
+  const router = useRouter();
 
   const handleSubmit = async (e: any) => {
-    e.preventDefault()
-    
+    e.preventDefault();
+
     const payload = {
       email,
       password,
-    }
-    
-    await signInWithEmail(payload);
-    router.push('/explore')
+    };
+    const user = await signInWithEmail(payload);
+    setUserProfile(user);
+    router.push("/explore");
   };
-
 
   return (
     <div
@@ -38,7 +38,7 @@ const LoginForm: FC = () => {
     >
       <div className="w-72">
         <h1 className={`text-xl font-semibold ${open_sans.className}`}>
-         Welcome back
+          Welcome back
         </h1>
         <small className={`text-xs text-[#1C1C1C] ${open_sans.className}}`}>
           Please enter your details
@@ -88,14 +88,12 @@ const LoginForm: FC = () => {
           </div>
 
           <div className="mb-3">
-
-           
-              <button
-                type="submit"
-                className={`mb-1.5 block w-full rounded-md bg-[#AF7A0F] px-2 py-1.5 text-center text-lg font-semibold text-white ${open_sans.className}}`}
-              >
-                Sign In
-              </button>
+            <button
+              type="submit"
+              className={`mb-1.5 block w-full rounded-md bg-[#AF7A0F] px-2 py-1.5 text-center text-lg font-semibold text-white ${open_sans.className}}`}
+            >
+              Sign In
+            </button>
           </div>
         </form>
 
@@ -103,16 +101,16 @@ const LoginForm: FC = () => {
           <span
             className={`text-xs font-semibold text-gray-400 ${open_sans.className}}`}
           >
-            Don't have an account?
+            {`Don't have an account?`}
           </span>
 
-            <Link href="/signup">
-              <button
-                className={`text-base font-semibold text-[#AF7A0F] ${open_sans.className}}`}
-              >
-                Sign up
-              </button>
-            </Link>
+          <Link href="/signup">
+            <button
+              className={`text-base font-semibold text-[#AF7A0F] ${open_sans.className}}`}
+            >
+              Sign up
+            </button>
+          </Link>
         </div>
       </div>
     </div>
