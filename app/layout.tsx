@@ -3,37 +3,48 @@
 import { noto_serif } from "@/public/assets/fonts/font";
 import Navbar from "./components/Navbar";
 import supabase from "@/server/supabase";
+import getUserDetails from "@/server/utils/getUserDetails";
 import { useEffect } from "react";
 import "./globals.css";
 import Head from "./head";
+import useStore from "./store/store";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const onSignIn = async () => {
-    const { data } = await supabase.auth.getUser();
-    const { id }: any = data?.user as any;
-    console.log(id);
-  };
-  // useEffect(() => {
+  const { setUserProfile } = useStore((state: any) => ({
+    setUserProfile: state.setUserProfile,
+  }));
 
-  //   funct();
-  // }, []);
-
-  // auth-change event
-  const observeAuthChange = async () => {
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((e, session) => {
-      if (e === "SIGNED_IN") onSignIn();
-    });
-    subscription.callback("SIGNED_IN", null);
+  const authenticateUserSignIn = async () => {
+    try {
+      const { data } = await supabase.auth.getUser();
+      if (data.user) {
+        const { id }: any = data?.user as any;
+        const user = await getUserDetails(id);
+        setUserProfile(user);
+      } else {
+        // if user isn't logged in
+        // erase user details
+        const user = {
+          id: "",
+          username: "",
+          email: "",
+        };
+        setUserProfile(user);
+      }
+    } catch (error) {
+      // authentication failed
+      console.log(error);
+    }
   };
 
   useEffect(() => {
-    observeAuthChange();
+    authenticateUserSignIn();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

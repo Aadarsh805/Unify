@@ -4,10 +4,11 @@ import { open_sans } from "@/public/assets/fonts/font";
 import signInWithEmail from "@/server/signIn";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FC } from "react";
+import { FC, useState } from "react";
 import useStore from "../store/store";
 
 const LoginForm: FC = () => {
+  const [invalidLogin, setInvalidLogin] = useState<boolean>(false);
   const { setEmail, setPassword, email, password, setUserProfile } = useStore(
     (state: any) => ({
       setEmail: state.setEmail,
@@ -26,9 +27,13 @@ const LoginForm: FC = () => {
       email,
       password,
     };
-    const user = await signInWithEmail(payload);
-    setUserProfile(user);
-    router.push("/explore");
+    try {
+      const user = await signInWithEmail(payload);
+      setUserProfile(user);
+      // router.push("/explore");
+    } catch (error: any) {
+      setInvalidLogin(true);
+    }
   };
 
   return (
@@ -43,7 +48,9 @@ const LoginForm: FC = () => {
         <small className={`text-xs text-[#1C1C1C] ${open_sans.className}}`}>
           Please enter your details
         </small>
-
+        {invalidLogin && (
+          <p className="font font-medium text-rose-600">Invalid credentials</p>
+        )}
         <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-2">
           <div className="mb-3 flex flex-col gap-2">
             <label
