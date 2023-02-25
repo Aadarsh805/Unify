@@ -1,4 +1,5 @@
 import CreateProfile from "./components/CreateProfile";
+import Footer from "./components/Footer";
 import Hero from "./components/Hero";
 import HeroText from "./components/HeroText";
 import Support from "./components/Support";
@@ -12,6 +13,7 @@ export default function Home() {
       <Tradition />
       <CreateProfile />
       <Support />
+      <Footer />
     </div>
   );
 }
