@@ -30,7 +30,7 @@ const LoginForm: FC = () => {
     try {
       const user = await signInWithEmail(payload);
       setUserProfile(user);
-      // router.push("/explore");
+      router.push("/explore");
     } catch (error: any) {
       setInvalidLogin(true);
     }
