@@ -5,10 +5,11 @@ import tradition from "public/assets/images/tradition.png";
 
 import deleteFromInterestedProducts from "@/server/deleteFromInterestedProducts";
 import insertToInterestedProducts from "@/server/insertToInterestedProducts";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import useStore from "../../store/store";
 
 const UserProfilePage = () => {
+  const router = useRouter();
   // shouls contain owner_id;
   const products = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
   const path = usePathname();
@@ -57,6 +58,8 @@ const UserProfilePage = () => {
                   onClick={() => {
                     if (userId) {
                       manageInterestList(product);
+                    } else {
+                      router.push("/login");
                     }
                   }}
                   className={`absolute left-0 bottom-0 z-10 w-full bg-[#Af7A0f] py-3 text-[#F4F1E7]`}
