@@ -1,10 +1,32 @@
 "use client";
 
+import { useState } from "react";
+
 type Props = {
   setShowModal: any;
 };
 
 function Modal({ setShowModal }: Props) {
+  const [itemInfo, setItemInfo] = useState({
+    name: "",
+    description: "",
+    category: "",
+    image: "",
+    culture: "",
+  });
+
+  const handleItemInfoChange = (e: any) => {
+    setItemInfo({
+      ...itemInfo,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    console.log(itemInfo);
+  };
+
   return (
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none">
@@ -15,7 +37,7 @@ function Modal({ setShowModal }: Props) {
           >
             close
           </button>
-          <form className="">
+          <form className="" onSubmit={(e) => handleSubmit(e)}>
             <div className="-mx-3 mb-6 flex flex-wrap">
               <div className="mb-6 w-full px-3 md:mb-0 md:w-1/2">
                 <label
@@ -28,7 +50,9 @@ function Modal({ setShowModal }: Props) {
                   className="mb-3 block w-full appearance-none rounded border border-red-500 bg-gray-200 py-3 px-4 leading-tight text-gray-700 focus:bg-white focus:outline-none"
                   id="title"
                   type="text"
+                  name="title"
                   placeholder="Name of item"
+                  onChange={(e) => handleItemInfoChange(e)}
                 />
                 {/* <p className="text-xs italic text-red-500">
                 Please fill out this field.
@@ -44,6 +68,8 @@ function Modal({ setShowModal }: Props) {
                 <select
                   className="block w-full appearance-none rounded border border-gray-200 bg-gray-200 py-3 px-4 pr-8 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
                   id="category"
+                  name="category"
+                  onChange={(e) => handleItemInfoChange(e)}
                 >
                   <option value="option1">option 1</option>
                   <option value="option2">option 2</option>
@@ -55,13 +81,15 @@ function Modal({ setShowModal }: Props) {
                   className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700"
                   htmlFor="description"
                 >
-                  Password
+                  Description
                 </label>
                 <textarea
                   className="mb-3 block w-full appearance-none rounded border border-gray-200 bg-gray-200 py-3 px-4 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
                   id="description"
+                  name="description"
                   rows={5}
                   placeholder="Information about the item"
+                  onChange={(e) => handleItemInfoChange(e)}
                 />
               </div>
               <div className="w-full px-3">
@@ -74,14 +102,24 @@ function Modal({ setShowModal }: Props) {
                 <input
                   className="mb-3 block w-full appearance-none rounded border border-gray-200 bg-gray-200 py-3 px-4 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
                   id="culture"
+                  name="culture"
                   placeholder="culture"
+                  onChange={(e) => handleItemInfoChange(e)}
                 />
               </div>
 
               <div className="mx-3 flex w-full items-center justify-center border-2 border-dashed border-[#Af7A0f] p-10">
-                <input type="file" name="" id="" />
+                <input
+                  type="file"
+                  name="image"
+                  id="image"
+                  onChange={(e) => handleItemInfoChange(e)}
+                />
               </div>
             </div>
+            <button className="w-full self-center bg-red-500" type="submit">
+              donate
+            </button>
           </form>
         </div>
       </div>
