@@ -27,13 +27,19 @@ export default function RootLayout({
             href="/account"
             className="border-l-4  border-[#AF7A0F] px-3 text-[#AF7A0F]"
           >
-            profile
+            Products
           </Link>
           <Link
             href="/account/match"
             className="border-l-4  border-[#AF7A0F] px-3 text-[#AF7A0F]"
           >
-            matches
+            Matches
+          </Link>
+          <Link
+            href="/account/interested"
+            className="border-l-4  border-[#AF7A0F] px-3 text-[#AF7A0F]"
+          >
+            Interested
           </Link>
         </div>
         {children}
