@@ -3,9 +3,9 @@
 import useStore from "@/app/store/store";
 import supabase from "@/server/supabase";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
-const interestedPage = () => {
+const InterestedPage: FC = () => {
   const [myInterestedProducts, setMyInterestedProducts] = useState<any[]>([]);
   const { interestedProduct, setInterestedProduct } = useStore((state) => ({
     interestedProduct: state.interestedProduct,
@@ -30,6 +30,8 @@ const interestedPage = () => {
       setInterestedProduct(a);
     };
     getMyInterested();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // console.log(myInterestedProducts, "myintersesd");
@@ -49,4 +51,4 @@ const interestedPage = () => {
   );
 };
 
-export default interestedPage;
+export default InterestedPage;

@@ -1,11 +1,11 @@
-import { FC } from "react";
-import footer_img from "public/assets/images/footer.png";
-import Image from "next/image";
 import { noto_serif, open_sans } from "@/public/assets/fonts/font";
-import { FiArrowUpRight } from "react-icons/fi";
-import { BsGithub } from "react-icons/bs";
-import { AiOutlineTwitter, AiFillLinkedin } from "react-icons/ai";
+import Image from "next/image";
 import Link from "next/link";
+import footer_img from "public/assets/images/footer.png";
+import { FC } from "react";
+import { AiFillLinkedin, AiOutlineTwitter } from "react-icons/ai";
+import { BsGithub } from "react-icons/bs";
+import { FiArrowUpRight } from "react-icons/fi";
 
 const Footer: FC = () => {
   const links = [
@@ -96,11 +96,13 @@ const Footer: FC = () => {
 
             <div className="flex items-center gap-4">
               {links.map((link) => (
-                <Link href={link.url}>
-                  <span className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-[#AF7A0F]  text-2xl">
-                    {link.icon}
-                  </span>
-                </Link>
+                <>
+                  <Link href={link.url}>
+                    <span className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-[#AF7A0F]  text-2xl">
+                      {link.icon}
+                    </span>
+                  </Link>
+                </>
               ))}
             </div>
           </div>
@@ -116,7 +118,7 @@ const Footer: FC = () => {
             </span>
           </p>
           <div>
-            <p className={`text-[#F6F6F6] text-[22px] ${open_sans.className}`}>
+            <p className={`text-[22px] text-[#F6F6F6] ${open_sans.className}`}>
               UI Credits:{" "}
               <Link
                 href="https://dribbble.com/shots/19187096-Web-site-design-landing-page-home-page-ui"

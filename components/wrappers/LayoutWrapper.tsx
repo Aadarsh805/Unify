@@ -81,6 +81,8 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
       setInterestedProduct(a);
     };
     getMyInterested();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
