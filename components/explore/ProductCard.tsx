@@ -31,15 +31,17 @@ function ProductCard({ product }: Props) {
   };
 
   return (
-    <Link
-      href={`/explore/cat/${product.id}`}
-      className="flex h-[22rem] w-[17rem] flex-col overflow-hidden rounded-t-[15rem] rounded-b-[.3rem] border-[3px] border-[#Af7A0f]"
-    >
-      <img
-        className="h-full w-full object-cover"
-        src={product.thumbnail}
-        alt=""
-      />
+
+    <div className="flex h-[22rem] w-[17rem] flex-col overflow-hidden rounded-t-[15rem] rounded-b-[.3rem] border-[3px] border-[#Af7A0f] ">
+      <Link href={`/explore/cat/${product.id}`} className="h-[22rem] w-[17rem]">
+        <img
+          className="h-full w-full object-cover"
+          src={product.thumbnail}
+          alt=""
+        />
+      </Link>
+      {/* todo: if already interested render another button */}
+
       <button
         onClick={() => {
           if (isUser) {
@@ -52,7 +54,7 @@ function ProductCard({ product }: Props) {
       >
         {isAlreadyIntested ? "DisInterest" : "Interest"}
       </button>
-    </Link>
+    </div>
   );
 }
 
