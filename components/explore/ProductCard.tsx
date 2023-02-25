@@ -1,5 +1,8 @@
 "use client";
+/* eslint-disable @next/next/no-img-element */
 
+import useStore from "@/app/store/store";
+import insertToInterestedProducts from "@/server/insertToInterestedProducts";
 import Link from "next/link";
 
 type Props = {
@@ -7,6 +10,18 @@ type Props = {
 };
 
 function ProductCard({ product }: Props) {
+  const { userProfile } = useStore((state: any) => ({
+    userProfile: state.userProfile,
+  }));
+  const isUser = userProfile.id;
+
+  const addToMyInterestList = async () => {
+    await insertToInterestedProducts({
+      id: Number(product.id),
+      interested_by: userProfile.id as string,
+    });
+  };
+
   return (
     <Link
       href={`/explore/cat/${product.id}`}
@@ -17,7 +32,18 @@ function ProductCard({ product }: Props) {
         src={product.thumbnail}
         alt=""
       />
-      <button className="bg-[#Af7A0f] py-3 text-[#F4F1E7] ">Intrested</button>
+      <button
+        onClick={() => {
+          if (isUser) {
+            addToMyInterestList();
+          }
+        }}
+        className={`bg-[#Af7A0f] py-3 text-[#F4F1E7] ${
+          isUser ? `opacity-100` : `opacity-40`
+        } `}
+      >
+        Intrested
+      </button>
     </Link>
   );
 }
