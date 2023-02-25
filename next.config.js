@@ -3,6 +3,9 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
+  images: {
+    domains: ["nxlkzsdcwscprmiqcqiu.supabase.co"],
+  },
   redirects() {
     return [
       {
@@ -12,6 +15,6 @@ const nextConfig = {
       },
     ];
   },
-};
+};;
 
 module.exports = nextConfig;
