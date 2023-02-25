@@ -6,12 +6,16 @@ export type User = {
   email: string;
 };
 
+interface IInterestedProduct {
+  product_id: number;
+}
+
 type StoreValues = {
   email: string;
   username: string;
   password: string;
   userProfile: User;
-  interestedProduct: [];
+  interestedProduct: IInterestedProduct[];
   notificationCount: number;
   setEmail: (email: string) => void;
   setPassword: (password: string) => void;
@@ -45,7 +49,7 @@ const useStore = create<StoreValues>((set, get) => ({
       username: name,
     });
   },
-  setInterestedProduct: (products: []) => {
+  setInterestedProduct: (products: IInterestedProduct[]) => {
     set({
       interestedProduct: products,
     });
