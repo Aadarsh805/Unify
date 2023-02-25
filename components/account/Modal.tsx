@@ -15,7 +15,7 @@ function Modal({ setShowModal }: Props) {
   const [itemInfo, setItemInfo] = useState({
     title: "",
     description: "",
-    category: "",
+    category: "all",
     image: "",
     culture: "",
   });
@@ -120,9 +120,13 @@ function Modal({ setShowModal }: Props) {
                   name="category"
                   onChange={(e) => handleItemInfoChange(e)}
                 >
-                  <option value="option1">option 1</option>
-                  <option value="option2">option 2</option>
-                  <option value="option3">option 3</option>
+                  <option selected={true} value="all">
+                    All
+                  </option>
+                  <option value="clothings">clothings</option>
+                  <option value="food">Food</option>
+                  <option value="decor">Decor</option>
+                  <option value="Accessories">Accessories </option>
                 </select>
               </div>
               <div className="w-full px-3">
