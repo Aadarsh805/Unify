@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import supabase from "@/server/supabase";
 import getUserDetails from "@/server/utils/getUserDetails";
 import { useEffect } from "react";
+import LayoutWrapper from "@/components/wrappers/LayoutWrapper";
 import "./globals.css";
 import Head from "./head";
 import useStore from "./store/store";
@@ -49,7 +50,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <Head />
+      <Head />        
       <body
         style={{
           fontFamily: `${noto_serif.className}`,
@@ -57,7 +58,7 @@ export default function RootLayout({
         className="bg-[#F4F1E7]"
       >
         <Navbar />
-        {children}
+       <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>
   );
