@@ -1,3 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/rules-of-hooks */
+"use client";
+
+import useStore from "@/app/store/store";
+import deleteFromInterestedProducts from "@/server/deleteFromInterestedProducts";
+import insertToInterestedProducts from "@/server/insertToInterestedProducts";
+import { FC, useEffect, useState } from "react";
+
+/* eslint-disable @next/next/no-img-element */
+
 async function getProductDetails(id: string) {
   // console.log(category);
 
@@ -14,8 +25,43 @@ type PageProps = {
   };
 };
 
-const productDetailsPage = async ({ params: { productId } }: PageProps) => {
-  const product = await getProductDetails(productId);
+const productDetailsPage: FC<PageProps> = ({ params: { productId } }) => {
+  const [product, setProduct] = useState({
+    id: "",
+    title: "",
+    description: "",
+    thumbnail: "",
+    owner_id: "",
+  });
+
+  async function fetchProduct() {
+    const product = await getProductDetails(productId);
+    setProduct(product);
+  }
+  useEffect(() => {
+    fetchProduct();
+  }, []);
+
+  const { userProfile, interestedProduct } = useStore((state: any) => ({
+    userProfile: state.userProfile,
+    interestedProduct: state.interestedProduct,
+  }));
+  const isUser = userProfile.id;
+  const isAlreadyIntested = interestedProduct.includes(product.id) as boolean;
+
+  const manageInterestList = async () => {
+    if (isUser === product.owner_id) return;
+    const productDetails = {
+      id: Number(product.id),
+      interested_by: userProfile.id as string,
+    };
+    console.log(productDetails);
+    if (isAlreadyIntested) {
+      await deleteFromInterestedProducts(productDetails);
+    } else {
+      await insertToInterestedProducts(productDetails);
+    }
+  };
 
   return (
     <main className="flex min-h-[85vh] items-center justify-center gap-20 px-[2rem]">
@@ -38,12 +84,20 @@ const productDetailsPage = async ({ params: { productId } }: PageProps) => {
             </p>
           </div>
           <div className="flex items-center gap-20">
-            <button className="w-fit rounded-full border border-[#Af7A0f] p-[.15rem]">
+            <button
+              onClick={() => {
+                if (isUser) {
+                  manageInterestList();
+                }
+              }}
+              className={`w-fit rounded-full border border-[#Af7A0f] p-[.15rem] ${
+                isUser ? `opacity-100` : `opacity-40`
+              } `}
+            >
               <p className="rounded-full bg-[#Af7A0f] px-[5rem] py-4 text-[#F4F1E7]">
-                Instrested
+                {isAlreadyIntested ? "DisInterest" : "Interest"}
               </p>
             </button>
-
             <div className="flex items-center text-2xl font-bold">
               <img
                 className="w-10 rounded-full"
