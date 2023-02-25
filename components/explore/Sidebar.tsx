@@ -1,9 +1,7 @@
 import Link from "next/link";
 import type { FC } from "react";
 
-type SidebarProps = {};
-
-const Sidebar: FC<SidebarProps> = () => {
+const Sidebar: FC= () => {
   return (
     <aside className="float-left flex min-h-screen flex-col gap-5  px-[3rem] pt-[6rem] text-xl">
       <Link
