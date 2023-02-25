@@ -18,11 +18,20 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
   const [interestedBy, setInterestedBy] = useState<string>("");
   const [productInterested, setProductInterested] = useState<string>("");
   const [myInterestedProducts, setMyInterestedProducts] = useState<any[]>([]);
-  const [userId, setUserId] = useState("");
+  // const [userId, setUserId] = useState("");
 
-  const { interestedProduct, setInterestedProduct } = useStore((state) => ({
+  const {
+    interestedProduct,
+    setInterestedProduct,
+    userProfile,
+    userId,
+    setUserId,
+  } = useStore((state) => ({
     interestedProduct: state.interestedProduct,
     setInterestedProduct: state.setInterestedProduct,
+    userProfile: state.userProfile,
+    userId: state.userId,
+    setUserId: state.setUserId,
   }));
 
   console.log(userId);
