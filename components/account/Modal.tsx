@@ -1,5 +1,6 @@
 "use client";
 
+import ProductModalImage from "@/app/components/ProductModalImage";
 import { useState } from "react";
 
 type Props = {
@@ -14,6 +15,7 @@ function Modal({ setShowModal }: Props) {
     image: "",
     culture: "",
   });
+  const [img_url, setEventImageUrl] = useState("");
 
   const handleItemInfoChange = (e: any) => {
     setItemInfo({
@@ -108,12 +110,12 @@ function Modal({ setShowModal }: Props) {
                 />
               </div>
 
-              <div className="mx-3 flex w-full items-center justify-center border-2 border-dashed border-[#Af7A0f] p-10">
-                <input
-                  type="file"
-                  name="image"
-                  id="image"
-                  onChange={(e) => handleItemInfoChange(e)}
+              <div className="mx-3 flex w-full items-center justify-center border-2 border-dashed border-[#Af7A0f] p-4">
+                <ProductModalImage
+                  url={img_url}
+                  onUpload={(url) => {
+                    setEventImageUrl(url);
+                  }}
                 />
               </div>
             </div>
