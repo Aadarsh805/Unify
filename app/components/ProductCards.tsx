@@ -45,7 +45,7 @@ function ProductCards({ products }: Props) {
           <div className="-mx-6 p-4 ">
             <div className="swiper-container !overflow-hidden">
               <div className="swiper-wrapper">
-                {products &&
+                {Array.isArray(products) &&
                   products.map((product: any) => (
                     <div className="swiper-slide" key={product.id}>
                       <ProductCard product={product} />

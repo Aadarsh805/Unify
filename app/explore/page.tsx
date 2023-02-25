@@ -1,27 +1,17 @@
-"use client";
-
-import ProductCards from "@/app/components/ProductCards";
 import { noto_serif, open_sans } from "@/public/assets/fonts/font";
 import supabase from "@/server/supabase";
-import useStore from "@/app/store/store";
+import Image from "next/image";
 import Link from "next/link";
 import downArrow from "public/assets/images/downArrow.png";
-import Image from "next/image";
+import ProductCards from "../components/ProductCards";
 
-async function getProducts(category: string) {
-  const { data } = await supabase
+async function getProducts() {
+  const { data: products } = await supabase
     .from("products")
-    .select("id,product_image,owner_id,category,created_at")
-    .eq("category", category);
-
-  if (data && Array.isArray(data)) {
-    return {
-      products: data,
-    };
-  } else
-    return {
-      products: [],
-    };
+    .select("id,product_image,owner_id,category,created_at");
+  return {
+    products,
+  };
 }
 
 type PageProps = {
@@ -30,27 +20,26 @@ type PageProps = {
   };
 };
 
-const categoryPage = async ({ params: { category } }: PageProps) => {
-  const { products } = await getProducts(category);
-
+const explorePage = async () => {
+  const { products } = await getProducts();
   return (
     <main
-      className="mt-20 flex items-start gap-[5rem] px-[4rem]"
+      className="mt-20 flex items-start  gap-[5rem] px-[4rem]"
       style={{ height: "calc(100vh - 193px)" }}
     >
-      <article className="flex w-full flex-col gap-5">
+      <article className="flex max-w-[25em] flex-col gap-5">
         <h1
           className={`text-6xl font-bold text-[#1C1C1C]/90 ${noto_serif.className}`}
         >
           Explore <span className="text-[#AF7A0F]">Our</span> Diverse Collection
         </h1>
-        <div className="flex items-start gap-3">
+        <div className="flex items-start gap-2">
           <Image
             className="w-14"
             src={downArrow}
+            alt="down_arrow"
             width={144}
             height={144}
-            alt="down_arrow"
           />
           <p className={`text-xl text-[#1c1c1c]/90 ${noto_serif.className}`}>
             Discover a World of Treasures Across All Categories
@@ -63,9 +52,9 @@ const categoryPage = async ({ params: { category } }: PageProps) => {
           Donate
         </Link>
       </article>
-      {products && <ProductCards products={products} />}
+      <ProductCards products={products} />
     </main>
   );
 };
 
-export default categoryPage;
+export default explorePage;
