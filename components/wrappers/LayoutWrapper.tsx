@@ -2,6 +2,7 @@
 
 import useStore from "@/app/store/store";
 import supabase from "@/server/supabase";
+import getUserDetails from "@/server/utils/getUserDetails";
 import type { RealtimeChannel } from "@supabase/realtime-js";
 import { FC, ReactNode, useEffect, useState } from "react";
 
@@ -25,18 +26,37 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
     setInterestedProduct: state.setInterestedProduct,
   }));
 
+  const { setUserProfile } = useStore((state: any) => ({
+    setUserProfile: state.setUserProfile,
+  }));
+
+  const authenticateUserSignIn = async () => {
+    try {
+      const { data } = await supabase.auth.getUser();
+      if (data.user) {
+        const { id }: any = data?.user as any;
+        const user = await getUserDetails(id);
+        setUserProfile(user);
+        setUserId(user.id);
+      } else {
+        // if user isn't logged in
+        // erase user details
+        const user = {
+          id: "",
+          username: "",
+          email: "",
+        };
+        setUserProfile(user);
+      }
+    } catch (error) {
+      // authentication failed
+      console.log(error);
+    }
+  };
+
   console.log(userId);
   useEffect(() => {
-    const funct = async () => {
-      const { data } = await supabase.auth.getUser();
-      const { id }: any = data.user;
-      setUserId(id);
-    };
-
-    funct();
-
     let channel: RealtimeChannel;
-
     const mySubscription = async () => {
       // now that we have all the products I liked
       // which is an array of product id's
@@ -61,7 +81,11 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
           }
         });
     };
+
     mySubscription();
+    authenticateUserSignIn();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // call this everytime I interest a product
@@ -81,6 +105,8 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
       setInterestedProduct(a);
     };
     getMyInterested();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

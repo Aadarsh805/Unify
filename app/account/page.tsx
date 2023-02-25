@@ -1,10 +1,11 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import Modal from "@/components/account/Modal";
 import supabase from "@/server/supabase";
 import { useEffect, useState } from "react";
 
-const accountPage = () => {
+const AccountPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [myproducts, setMyProducts] = useState<any>([]);
 
@@ -56,4 +57,4 @@ const accountPage = () => {
   );
 };
 
-export default accountPage;
+export default AccountPage;

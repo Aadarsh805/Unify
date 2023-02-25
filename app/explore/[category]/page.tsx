@@ -1,4 +1,5 @@
 import ProductCards from "@/app/components/ProductCards";
+import Image from "next/image";
 import Link from "next/link";
 
 async function getProducts(category: string) {
@@ -27,7 +28,7 @@ const categoryPage = async ({ params: { category } }: PageProps) => {
           Explore Our <span className="text-[#AF7A0F]">Diverse</span> Collection
         </h1>
         <div className="flex items-center gap-3">
-          <img className="w-10" src="/assets/images/downArrow.png" alt="" />
+          <Image className="w-10" src="/assets/images/downArrow.png" alt="" />
           <p className="text-xl text-[#1c1c1c]/90">
             Discover a World of Treasures Across All Categories
           </p>
