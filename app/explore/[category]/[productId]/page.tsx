@@ -67,10 +67,9 @@ const ProductDetailsPage: FC<PageProps> = ({ params: { productId } }) => {
   const manageInterestList = async () => {
     if (isUser === owner.id) return;
     const productDetails = {
-      id: Number(product.id),
+      product_id: Number(product.id),
       interested_by: userProfile.id as string,
     };
-    console.log(productDetails);
     if (isAlreadyIntested) {
       await deleteFromInterestedProducts(productDetails);
     } else {

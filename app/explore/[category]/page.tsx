@@ -1,69 +1,56 @@
 "use client";
 
 import ProductCards from "@/app/components/ProductCards";
-import { noto_serif, open_sans } from "@/public/assets/fonts/font";
 import supabase from "@/server/supabase";
-import useStore from "@/app/store/store";
 import Link from "next/link";
-import downArrow from "public/assets/images/downArrow.png";
-import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
-async function getProducts(category: string) {
-  const { data } = await supabase
-    .from("products")
-    .select("id,product_image,owner_id,category,created_at")
-    .eq("category", category);
+type PageProps = {};
 
-  if (data && Array.isArray(data)) {
-    return {
-      products: data,
-    };
-  } else
-    return {
-      products: [],
-    };
-}
+const categoryPage = ({}: PageProps) => {
+  const path = usePathname();
 
-type PageProps = {
-  params: {
-    category: string;
-  };
-};
+  let category = "";
+  if (path) category = path.substring(path.lastIndexOf("/") + 1, path.length);
+  const [products, setProducts] = useState<any[]>([]);
 
-const categoryPage = async ({ params: { category } }: PageProps) => {
-  const { products } = await getProducts(category);
+  useEffect(() => {
+    async function getProducts() {
+      const { data } = await supabase
+        .from("products")
+        .select("id,product_image,owner_id,category,created_at");
+
+      if (data && Array.isArray(data)) {
+        setProducts(data);
+      } else
+        return {
+          products: [],
+        };
+    }
+    getProducts();
+  }, [category]);
 
   return (
-    <main
-      className="mt-20 flex items-start gap-[5rem] px-[4rem]"
-      style={{ height: "calc(100vh - 193px)" }}
-    >
-      <article className="flex w-full flex-col gap-5">
-        <h1
-          className={`text-6xl font-bold text-[#1C1C1C]/90 ${noto_serif.className}`}
-        >
-          Explore <span className="text-[#AF7A0F]">Our</span> Diverse Collection
+    <main className="flex  items-center gap-[5rem] px-[4rem]">
+      <article className="flex max-w-[25rem] flex-col gap-5">
+        <h1 className="text-6xl font-bold text-[#1C1C1C]/90">
+          Explore Our <span className="text-[#AF7A0F]">Diverse</span> Collection
         </h1>
-        <div className="flex items-start gap-3">
-          <Image
-            className="w-14"
-            src={downArrow}
-            width={144}
-            height={144}
-            alt="down_arrow"
-          />
-          <p className={`text-xl text-[#1c1c1c]/90 ${noto_serif.className}`}>
+        <div className="flex items-center gap-3">
+          <img className="w-10" src="/assets/images/downArrow.png" alt="" />
+          <p className="text-xl text-[#1c1c1c]/90">
             Discover a World of Treasures Across All Categories
           </p>
         </div>
         <Link
-          className={`w-fit rounded-sm bg-[#Af7A0f] px-[6rem] py-3 font-bold uppercase text-[#F4F1E7] ${open_sans.className}`}
+          className="w-fit rounded-sm bg-[#Af7A0f] px-[6rem] py-3 text-[#F4F1E7]"
           href="/"
         >
           Donate
         </Link>
       </article>
-      {products && <ProductCards products={products} />}
+      <ProductCards products={products} />
     </main>
   );
 };
