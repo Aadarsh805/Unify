@@ -6,6 +6,15 @@ const nextConfig = {
   images: {
     domains: ["nxlkzsdcwscprmiqcqiu.supabase.co"],
   },
-};
+  redirects() {
+    return [
+      {
+        source: "/explore",
+        destination: "/explore/all",
+        permanent: true,
+      },
+    ];
+  },
+};;
 
 module.exports = nextConfig;

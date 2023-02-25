@@ -21,7 +21,7 @@ const Navbar: FC<NavbarProps> = () => {
     },
     {
       name: "explore",
-      route: "/explore",
+      route: "/explore/all",
     },
     {
       name: "blog",

@@ -1,9 +1,12 @@
+"use client";
+
 import ProductCards from "@/app/components/ProductCards";
 import { noto_serif, open_sans } from "@/public/assets/fonts/font";
 import supabase from "@/server/supabase";
-import Image from "next/image";
+import useStore from "@/app/store/store";
 import Link from "next/link";
 import downArrow from "public/assets/images/downArrow.png";
+import Image from "next/image";
 
 async function getProducts(category: string) {
   const { data } = await supabase
@@ -60,7 +63,7 @@ const categoryPage = async ({ params: { category } }: PageProps) => {
           Donate
         </Link>
       </article>
-      <ProductCards products={products} />
+      {products && <ProductCards products={products} />}
     </main>
   );
 };

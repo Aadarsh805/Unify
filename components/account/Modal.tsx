@@ -15,7 +15,7 @@ function Modal({ setShowModal }: Props) {
   const [itemInfo, setItemInfo] = useState({
     title: "",
     description: "",
-    category: "",
+    category: "all",
     image: "",
     culture: "",
   });
@@ -85,9 +85,9 @@ function Modal({ setShowModal }: Props) {
         <div className="flex w-full max-w-lg flex-col rounded-lg border-[3px] border-[#Af7A0f] bg-white p-5">
           <button
             onClick={() => setShowModal(false)}
-            className="my-3 self-end bg-green-300"
+            className="my-3 self-end rounded-sm bg-gray-800 px-3 py-1 text-white"
           >
-            close
+            X
           </button>
           <form className="" onSubmit={(e) => handleSubmit(e)}>
             <div className="-mx-3 mb-6 flex flex-wrap">
@@ -99,7 +99,7 @@ function Modal({ setShowModal }: Props) {
                   Title
                 </label>
                 <input
-                  className="mb-3 block w-full appearance-none rounded border border-red-500 bg-gray-200 py-3 px-4 leading-tight text-gray-700 focus:bg-white focus:outline-none"
+                  className="mb-3 block w-full appearance-none rounded border bg-gray-200 py-3 px-4 leading-tight text-gray-700 focus:bg-white focus:outline-none"
                   id="title"
                   type="text"
                   name="title"
@@ -120,9 +120,13 @@ function Modal({ setShowModal }: Props) {
                   name="category"
                   onChange={(e) => handleItemInfoChange(e)}
                 >
-                  <option value="option1">option 1</option>
-                  <option value="option2">option 2</option>
-                  <option value="option3">option 3</option>
+                  <option selected={true} value="all">
+                    All
+                  </option>
+                  <option value="clothings">clothings</option>
+                  <option value="food">Food</option>
+                  <option value="decor">Decor</option>
+                  <option value="Accessories">Accessories </option>
                 </select>
               </div>
               <div className="w-full px-3">
@@ -166,8 +170,11 @@ function Modal({ setShowModal }: Props) {
                 />
               </div>
             </div>
-            <button className="w-full self-center bg-red-500" type="submit">
-              donate
+            <button
+              className="w-full self-center bg-[#Af7A0f] p-3 text-white"
+              type="submit"
+            >
+              Donate
             </button>
           </form>
         </div>
