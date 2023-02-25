@@ -43,7 +43,7 @@ const Footer: FC = () => {
               Unify
             </h1>
           </Link>
-          <Link href={'https://github.com/Aadarsh805/Unify'}>
+          <Link href={"https://github.com/Aadarsh805/Unify"}>
             <div className=" flex cursor-pointer items-center gap-3 rounded-lg border border-[#AF7A0F] px-5 py-2">
               <p
                 className={`text-[22px] uppercase text-[#AF7A0F] ${open_sans.className}`}
@@ -97,7 +97,7 @@ const Footer: FC = () => {
             <div className="flex items-center gap-4">
               {links.map((link) => (
                 <Link href={link.url}>
-                  <span className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-[#AF7A0F]  text-xl">
+                  <span className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-[#AF7A0F]  text-2xl">
                     {link.icon}
                   </span>
                 </Link>
@@ -115,6 +115,17 @@ const Footer: FC = () => {
               Unify
             </span>
           </p>
+          <div>
+            <p className={`text-[#F6F6F6] text-[22px] ${open_sans.className}`}>
+              UI Credits:{" "}
+              <Link
+                href="https://dribbble.com/shots/19187096-Web-site-design-landing-page-home-page-ui"
+                className="text-[#AF7A0F]"
+              >
+                Halo Lab
+              </Link>
+            </p>
+          </div>
 
           <div className="flex items-center gap-10">
             <p className={` text-[22px] text-[#F6F6F6] ${open_sans.className}`}>

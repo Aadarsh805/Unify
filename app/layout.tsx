@@ -29,7 +29,7 @@ export default function RootLayout({
         style={{
           fontFamily: `${noto_serif.className}`,
         }}
-        className="bg-[#F4F1E7]"
+        className="bg-[#F4F1E7] no-scrollbar"
       >
         <Navbar />
         {children}
