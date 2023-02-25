@@ -46,15 +46,13 @@ const NotificationIcon: FC = () => {
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
-        className={` mt-4 ${open_sans.className}`}
+        className={` mt-4 -ml-24 ${open_sans.className}`}
       >
-        <div>
             {notification.map((noti, indx) => (
                 <MenuItem onClick={handleClose}>
                     {noti}
                 </MenuItem>
             ))}
-        </div>
       </Menu>
     </div>
   );

@@ -1,21 +1,24 @@
 "use client"
 
 import { open_sans } from "@/public/assets/fonts/font";
-import signInWithEmail from "@/server/signIn";
+import signUpWithEmail from "@/server/signup";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import { FC } from "react";
 import useStore from "../store/store";
 
-const LoginForm: FC = () => {
-  const { setEmail, setPassword, email,
-    password
-    } = useStore((state: any) => ({
+const SignupForm: FC = () => {
+  const { setEmail, setPassword, setUsername,email,
+    password,
+    username } = useStore((state: any) => ({
     setEmail: state.setEmail,
     setPassword: state.setPassword,
+    setUsername: state.setUsername,
     email: state.email,
+    username: state.username,
     password: state.password
   }));
+
   const router = useRouter()
 
   const handleSubmit = async (e: any) => {
@@ -24,10 +27,12 @@ const LoginForm: FC = () => {
     const payload = {
       email,
       password,
+      username,
+      id: ''
     }
     
-    await signInWithEmail(payload);
-    router.push('/explore')
+    await signUpWithEmail(payload);
+    router.push('/login')
   };
 
 
@@ -38,7 +43,7 @@ const LoginForm: FC = () => {
     >
       <div className="w-72">
         <h1 className={`text-xl font-semibold ${open_sans.className}`}>
-         Welcome back
+          Hello there
         </h1>
         <small className={`text-xs text-[#1C1C1C] ${open_sans.className}}`}>
           Please enter your details
@@ -46,6 +51,19 @@ const LoginForm: FC = () => {
 
         <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-2">
           <div className="mb-3 flex flex-col gap-2">
+              <>
+                <label
+                  className={` block text-sm font-semibold ${open_sans.className}}`}
+                >
+                  Username
+                </label>
+                <input
+                  type="text"
+                  placeholder="Username"
+                  className={`block w-full rounded-md border border-gray-300 py-1 px-1.5 text-gray-500 focus:border-[#AF7A0F] focus:outline-none ${open_sans.className}`}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </>
             <label
               className={` block text-xs font-semibold ${open_sans.className}}`}
             >
@@ -85,17 +103,21 @@ const LoginForm: FC = () => {
             >
               Remember for 30 days
             </label>
+              <Link
+                href="/login"
+                className={`text-xs font-semibold text-[#AF7A0F] ${open_sans.className}}`}
+              >
+                Forgot password?
+              </Link>
           </div>
 
           <div className="mb-3">
-
-           
-              <button
-                type="submit"
-                className={`mb-1.5 block w-full rounded-md bg-[#AF7A0F] px-2 py-1.5 text-center text-lg font-semibold text-white ${open_sans.className}}`}
-              >
-                Sign In
-              </button>
+            <button
+              type="submit"
+              className={`mb-1.5 block w-full rounded-md bg-[#AF7A0F] px-2 py-1.5 text-center text-lg font-semibold text-white ${open_sans.className}}`}
+            >
+              Sign Up
+            </button>
           </div>
         </form>
 
@@ -103,14 +125,14 @@ const LoginForm: FC = () => {
           <span
             className={`text-xs font-semibold text-gray-400 ${open_sans.className}}`}
           >
-            Don't have an account?
+           Already have an account?login
           </span>
-
-            <Link href="/signup">
+          
+            <Link href="/login">
               <button
                 className={`text-base font-semibold text-[#AF7A0F] ${open_sans.className}}`}
               >
-                Sign up
+                Sign In
               </button>
             </Link>
         </div>
@@ -119,4 +141,4 @@ const LoginForm: FC = () => {
   );
 };
 
-export default LoginForm;
+export default SignupForm;
