@@ -1,10 +1,15 @@
+import supabase from "@/server/supabase";
 import Image from "next/image";
 import Link from "next/link";
 import ProductCards from "../components/ProductCards";
 
 async function getProducts() {
-  const res = await fetch("https://dummyjson.com/products");
-  return res.json();
+  const { data: products } = await supabase
+    .from("products")
+    .select("id,product_image,owner_id,category,created_at");
+  return {
+    products,
+  };
 }
 
 type PageProps = {
@@ -14,8 +19,7 @@ type PageProps = {
 };
 
 const explorePage = async () => {
-  const products = await getProducts();
-
+  const { products } = await getProducts();
   return (
     <main className="flex min-h-screen items-center gap-[5rem] px-[4rem]">
       <article className="flex max-w-[25rem] flex-col gap-5">

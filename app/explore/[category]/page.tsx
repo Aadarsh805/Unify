@@ -1,15 +1,22 @@
 import ProductCards from "@/app/components/ProductCards";
+import supabase from "@/server/supabase";
 import Image from "next/image";
 import Link from "next/link";
 
 async function getProducts(category: string) {
-  // console.log(category);
+  const { data } = await supabase
+    .from("products")
+    .select("id,product_image,owner_id,category,created_at")
+    .eq("category", category);
 
-  // this is the category we want from api for now not filtering them
-
-  const res = await fetch("https://dummyjson.com/products");
-
-  return res.json();
+  if (data && Array.isArray(data)) {
+    return {
+      products: data,
+    };
+  } else
+    return {
+      products: [],
+    };
 }
 
 type PageProps = {
@@ -19,7 +26,7 @@ type PageProps = {
 };
 
 const categoryPage = async ({ params: { category } }: PageProps) => {
-  const products = await getProducts(category);
+  const { products } = await getProducts(category);
 
   return (
     <main className="flex min-h-screen items-center gap-[5rem] px-[4rem]">
