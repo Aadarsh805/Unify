@@ -1,9 +1,13 @@
-/* eslint-disable @next/next/no-img-element */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
+"use client";
 
 import useStore from "@/app/store/store";
 import deleteFromInterestedProducts from "@/server/deleteFromInterestedProducts";
 import insertToInterestedProducts from "@/server/insertToInterestedProducts";
+import { FC, useEffect, useState } from "react";
+
+/* eslint-disable @next/next/no-img-element */
 
 async function getProductDetails(id: string) {
   // console.log(category);
@@ -21,8 +25,22 @@ type PageProps = {
   };
 };
 
-const productDetailsPage = async ({ params: { productId } }: PageProps) => {
-  const product = await getProductDetails(productId);
+const productDetailsPage: FC<PageProps> = ({ params: { productId } }) => {
+  const [product, setProduct] = useState({
+    id: "",
+    title: "",
+    description: "",
+    thumbnail: "",
+    owner_id: "",
+  });
+
+  async function fetchProduct() {
+    const product = await getProductDetails(productId);
+    setProduct(product);
+  }
+  useEffect(() => {
+    fetchProduct();
+  }, []);
 
   const { userProfile, interestedProduct } = useStore((state: any) => ({
     userProfile: state.userProfile,
@@ -32,10 +50,12 @@ const productDetailsPage = async ({ params: { productId } }: PageProps) => {
   const isAlreadyIntested = interestedProduct.includes(product.id) as boolean;
 
   const manageInterestList = async () => {
+    if (isUser === product.owner_id) return;
     const productDetails = {
       id: Number(product.id),
       interested_by: userProfile.id as string,
     };
+    console.log(productDetails);
     if (isAlreadyIntested) {
       await deleteFromInterestedProducts(productDetails);
     } else {
@@ -69,7 +89,6 @@ const productDetailsPage = async ({ params: { productId } }: PageProps) => {
                 if (isUser) {
                   manageInterestList();
                 }
-                // todo: navigate to login
               }}
               className={`w-fit rounded-full border border-[#Af7A0f] p-[.15rem] ${
                 isUser ? `opacity-100` : `opacity-40`
