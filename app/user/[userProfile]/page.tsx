@@ -46,7 +46,7 @@ const UserProfilePage = () => {
     const isAlreadyIntested = interestedProduct.includes(id) as boolean;
     // if (userId === product.owner_id) return;
     const productDetails = {
-      id: Number(id),
+      product_id: Number(id),
       interested_by: userProfile.id as string,
     };
     if (isAlreadyIntested) {
