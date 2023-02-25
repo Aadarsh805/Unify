@@ -12,14 +12,28 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  useEffect(() => {
-    const funct = async () => {
-      const { data } = await supabase.auth.getUser();
-      const { id }: any = data?.user as any;
-      console.log(id);
-    };
+  const onSignIn = async () => {
+    const { data } = await supabase.auth.getUser();
+    const { id }: any = data?.user as any;
+    console.log(id);
+  };
+  // useEffect(() => {
 
-    funct();
+  //   funct();
+  // }, []);
+
+  // auth-change event
+  const observeAuthChange = async () => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((e, session) => {
+      if (e === "SIGNED_IN") onSignIn();
+    });
+    subscription.callback("SIGNED_IN", null);
+  };
+
+  useEffect(() => {
+    observeAuthChange();
   }, []);
 
   return (

@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
-type User = {
+export type User = {
+  id: string;
   username: string;
   email: string;
 };
@@ -26,7 +27,7 @@ const useStore = create<StoreValues>((set, get) => ({
   username: "",
   interestedProduct: [],
   notificationCount: 1,
-  userProfile: { username: "", email: "" },
+  userProfile: { id: "", username: "", email: "" },
 
   setEmail: (email: string) => {
     set({
@@ -50,9 +51,9 @@ const useStore = create<StoreValues>((set, get) => ({
     });
   },
 
-  setUserProfile: ({ username, email }: User) => {
+  setUserProfile: ({ username, email, id }: User) => {
     set({
-      userProfile: { username, email },
+      userProfile: { username, email, id },
     });
   },
 

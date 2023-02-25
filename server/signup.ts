@@ -6,8 +6,7 @@ export default async function signUpWithEmail(payload: {
   email: string;
   password: string;
   id: string;
-}) {
-  console.log(payload);
+}): Promise<void> {
   const supabaseCred = {
     email: payload.email,
     password: payload.password,
@@ -16,16 +15,20 @@ export default async function signUpWithEmail(payload: {
 
   // console.log(authData?.user?.id);
   if (!e && authData?.user?.id) {
-    const { data: user, error } = await supabase.from("users").insert({
+    const { error } = await supabase.from("users").insert({
       username: payload.username,
       email: payload.email,
-      id: authData?.user?.id,
+      id: authData.user.id,
     });
-    console.log(authData);
+
     if (error) {
-      return console.log(error);
+      // todo: handler create user Error
+      console.log(error);
     }
   }
 
-  return authData;
+  if (e) {
+    // todo: handle signup error
+    console.log(e);
+  }
 }

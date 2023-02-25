@@ -1,40 +1,37 @@
-"use client"
+"use client";
 
 import { open_sans } from "@/public/assets/fonts/font";
 import signUpWithEmail from "@/server/signup";
 import Link from "next/link";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { FC } from "react";
 import useStore from "../store/store";
 
 const SignupForm: FC = () => {
-  const { setEmail, setPassword, setUsername,email,
-    password,
-    username } = useStore((state: any) => ({
-    setEmail: state.setEmail,
-    setPassword: state.setPassword,
-    setUsername: state.setUsername,
-    email: state.email,
-    username: state.username,
-    password: state.password
-  }));
+  const { setEmail, setPassword, setUsername, email, password, username } =
+    useStore((state: any) => ({
+      setEmail: state.setEmail,
+      setPassword: state.setPassword,
+      setUsername: state.setUsername,
+      email: state.email,
+      username: state.username,
+      password: state.password,
+    }));
 
-  const router = useRouter()
+  const router = useRouter();
 
   const handleSubmit = async (e: any) => {
-    e.preventDefault()
-    
+    e.preventDefault();
     const payload = {
       email,
       password,
       username,
-      id: ''
-    }
-    
-    await signUpWithEmail(payload);
-    router.push('/login')
-  };
+      id: "",
+    };
 
+    await signUpWithEmail(payload);
+    router.push("/login");
+  };
 
   return (
     <div
@@ -51,19 +48,19 @@ const SignupForm: FC = () => {
 
         <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-2">
           <div className="mb-3 flex flex-col gap-2">
-              <>
-                <label
-                  className={` block text-sm font-semibold ${open_sans.className}}`}
-                >
-                  Username
-                </label>
-                <input
-                  type="text"
-                  placeholder="Username"
-                  className={`block w-full rounded-md border border-gray-300 py-1 px-1.5 text-gray-500 focus:border-[#AF7A0F] focus:outline-none ${open_sans.className}`}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-              </>
+            <>
+              <label
+                className={` block text-sm font-semibold ${open_sans.className}}`}
+              >
+                Username
+              </label>
+              <input
+                type="text"
+                placeholder="Username"
+                className={`block w-full rounded-md border border-gray-300 py-1 px-1.5 text-gray-500 focus:border-[#AF7A0F] focus:outline-none ${open_sans.className}`}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </>
             <label
               className={` block text-xs font-semibold ${open_sans.className}}`}
             >
@@ -103,12 +100,12 @@ const SignupForm: FC = () => {
             >
               Remember for 30 days
             </label>
-              <Link
-                href="/login"
-                className={`text-xs font-semibold text-[#AF7A0F] ${open_sans.className}}`}
-              >
-                Forgot password?
-              </Link>
+            <Link
+              href="/login"
+              className={`text-xs font-semibold text-[#AF7A0F] ${open_sans.className}}`}
+            >
+              Forgot password?
+            </Link>
           </div>
 
           <div className="mb-3">
@@ -125,16 +122,16 @@ const SignupForm: FC = () => {
           <span
             className={`text-xs font-semibold text-gray-400 ${open_sans.className}}`}
           >
-           Already have an account?login
+            Already have an account?login
           </span>
-          
-            <Link href="/login">
-              <button
-                className={`text-base font-semibold text-[#AF7A0F] ${open_sans.className}}`}
-              >
-                Sign In
-              </button>
-            </Link>
+
+          <Link href="/login">
+            <button
+              className={`text-base font-semibold text-[#AF7A0F] ${open_sans.className}}`}
+            >
+              Sign In
+            </button>
+          </Link>
         </div>
       </div>
     </div>
