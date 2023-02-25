@@ -1,16 +1,21 @@
 import { create } from "zustand";
 
-type User = {
+export type User = {
+  id: string;
   username: string;
   email: string;
 };
+
+interface IInterestedProduct {
+  product_id: number;
+}
 
 type StoreValues = {
   email: string;
   username: string;
   password: string;
   userProfile: User;
-  interestedProduct: [];
+  interestedProduct: IInterestedProduct[];
   notificationCount: number;
   setEmail: (email: string) => void;
   setPassword: (password: string) => void;
@@ -26,7 +31,7 @@ const useStore = create<StoreValues>((set, get) => ({
   username: "",
   interestedProduct: [],
   notificationCount: 1,
-  userProfile: { username: "", email: "" },
+  userProfile: { id: "", username: "", email: "" },
 
   setEmail: (email: string) => {
     set({
@@ -44,15 +49,15 @@ const useStore = create<StoreValues>((set, get) => ({
       username: name,
     });
   },
-  setInterestedProduct: (products: []) => {
+  setInterestedProduct: (products: IInterestedProduct[]) => {
     set({
       interestedProduct: products,
     });
   },
 
-  setUserProfile: ({ username, email }: User) => {
+  setUserProfile: ({ username, email, id }: User) => {
     set({
-      userProfile: { username, email },
+      userProfile: { username, email, id },
     });
   },
 

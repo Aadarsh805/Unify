@@ -3,16 +3,19 @@
 import { noto_serif } from "@/public/assets/fonts/font";
 import Navbar from "./components/Navbar";
 import supabase from "@/server/supabase";
+import getUserDetails from "@/server/utils/getUserDetails";
 import { useEffect } from "react";
+import LayoutWrapper from "@/components/wrappers/LayoutWrapper";
 import "./globals.css";
 import Head from "./head";
+import useStore from "./store/store";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const onSignIn = async () => {
+ const onSignIn = async () => {
     const { data } = await supabase.auth.getUser();
     const { id }: any = data?.user as any;
     console.log(id);
@@ -38,15 +41,15 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <Head />
+      <Head />        
       <body
         style={{
           fontFamily: `${noto_serif.className}`,
         }}
-        className="bg-[#F4F1E7]"
+        className="bg-[#F4F1E7] no-scrollbar"
       >
         <Navbar />
-        {children}
+       <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>
   );
