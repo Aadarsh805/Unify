@@ -29,12 +29,6 @@ export default function RootLayout({
           >
             profile
           </Link>
-          <Link
-            href="/manish/match"
-            className="text-[#AF7A0F]  border-[#AF7A0F] border-l-4 px-3"
-          >
-            matches
-          </Link>
         </div>
         {children}
       </div>
