@@ -2,6 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import useStore from "@/app/store/store";
+import deleteFromInterestedProducts from "@/server/deleteFromInterestedProducts";
 import insertToInterestedProducts from "@/server/insertToInterestedProducts";
 import Link from "next/link";
 
@@ -10,16 +11,23 @@ type Props = {
 };
 
 function ProductCard({ product }: Props) {
-  const { userProfile } = useStore((state: any) => ({
+  const { userProfile, interestedProduct } = useStore((state: any) => ({
     userProfile: state.userProfile,
+    interestedProduct: state.interestedProduct,
   }));
   const isUser = userProfile.id;
+  const isAlreadyIntested = interestedProduct.includes(product.id) as boolean;
 
-  const addToMyInterestList = async () => {
-    await insertToInterestedProducts({
+  const manageInterestList = async () => {
+    const productDetails = {
       id: Number(product.id),
       interested_by: userProfile.id as string,
-    });
+    };
+    if (isAlreadyIntested) {
+      await deleteFromInterestedProducts(productDetails);
+    } else {
+      await insertToInterestedProducts(productDetails);
+    }
   };
 
   return (
@@ -32,17 +40,18 @@ function ProductCard({ product }: Props) {
         src={product.thumbnail}
         alt=""
       />
+      {/* todo: if already interested render another button */}
       <button
         onClick={() => {
           if (isUser) {
-            addToMyInterestList();
+            manageInterestList();
           }
         }}
         className={`bg-[#Af7A0f] py-3 text-[#F4F1E7] ${
           isUser ? `opacity-100` : `opacity-40`
         } `}
       >
-        Intrested
+        {isAlreadyIntested ? "DisInterest" : "Interest"}
       </button>
     </Link>
   );
