@@ -13,8 +13,8 @@ export default function RootLayout({
   useEffect(() => {
     const funct = async () => {
       const { data } = await supabase.auth.getUser();
-      // const { id }: any = data?.user as any;
-      // console.log(id);
+      const { id }: any = data?.user as any;
+      console.log(id);
     };
 
     funct();
