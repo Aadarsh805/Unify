@@ -1,9 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import supabase from "@/server/supabase";
+import { useEffect, useState } from "react";
 
 const accountPage = () => {
   const [showModal, setShowModal] = useState(false);
+  const [myproducts, setMyProducts] = useState<any>([]);
+
+  useEffect(() => {
+    const fetchMyProducts = async () => {
+      const { data } = await supabase.auth.getUser();
+      const { id }: any = data?.user as any;
+
+      const { data: mydata, error } = await supabase
+        .from("products")
+        .select("product_image, id, owner_id, title")
+        .eq("owner_id", id);
+
+      console.log(data, "me");
+      console.log(mydata, "myproducts");
+      setMyProducts(mydata);
+      console.log("adsf");
+    };
+    fetchMyProducts();
+  }, []);
 
   return (
     <div className="px-10">
@@ -16,13 +36,19 @@ const accountPage = () => {
           <span className="text-3xl">+</span>
           Add a item
         </button>
-        <div className="h-[15rem] w-[15rem] overflow-hidden rounded-md border-[3px] border-[#Af7A0f]">
-          <img
-            className="h-full w-full object-cover"
-            src="https://fastly.picsum.photos/id/14/536/354.jpg?hmac=p8F6lcJ45rfP_j7N_J8IqhUE9-iUu1deD1BhGiLoV2Q"
-            alt=""
-          />
-        </div>
+        {myproducts?.map((product: any) => (
+          <div
+            key={product.id}
+            className="flex h-[15rem] w-[15rem] flex-col gap-2 overflow-hidden rounded-md border-[3px] border-[#Af7A0f]"
+          >
+            <img
+              className="h-full w-full object-cover"
+              src="https://fastly.picsum.photos/id/14/536/354.jpg?hmac=p8F6lcJ45rfP_j7N_J8IqhUE9-iUu1deD1BhGiLoV2Q"
+              alt=""
+            />
+            <p className="text-center text-lg text-black">{product?.title}</p>
+          </div>
+        ))}
       </div>
       {showModal ? (
         <>
