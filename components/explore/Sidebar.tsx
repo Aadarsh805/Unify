@@ -30,6 +30,7 @@ const Sidebar: FC = () => {
       {navLists.map((list) => (
         <Link
           href={list.route}
+          key={list.name}
           className="border-l-4  border-[#AF7A0F] px-3 text-[#AF7A0F]"
         >
           {list.name}
