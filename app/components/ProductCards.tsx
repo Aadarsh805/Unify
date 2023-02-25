@@ -46,7 +46,7 @@ function ProductCards({ products }: Props) {
             <div className="swiper-container !overflow-hidden">
               <div className="swiper-wrapper">
                 {products &&
-                  products.products.map((product: any) => (
+                  products.map((product: any) => (
                     <div className="swiper-slide" key={product.id}>
                       <ProductCard product={product} />
                     </div>

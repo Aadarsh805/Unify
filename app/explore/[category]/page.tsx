@@ -1,15 +1,9 @@
+"use client";
+
 import ProductCards from "@/app/components/ProductCards";
+import useStore from "@/app/store/store";
 import Link from "next/link";
-
-async function getProducts(category: string) {
-  // console.log(category);
-
-  // this is the category we want from api for now not filtering them
-
-  const res = await fetch("https://dummyjson.com/products");
-
-  return res.json();
-}
+import { useEffect, useState } from "react";
 
 type PageProps = {
   params: {
@@ -17,8 +11,34 @@ type PageProps = {
   };
 };
 
-const categoryPage = async ({ params: { category } }: PageProps) => {
-  const products = await getProducts(category);
+const categoryPage = ({ params: { category } }: PageProps) => {
+  const [products, setProducts] = useState<any>();
+
+  const { setMyProducts, myProducts } = useStore((state) => ({
+    setMyProducts: state.setMyProducts,
+    myProducts: state.myProducts,
+  }));
+
+  const fetchData = async () => {
+    const res = await fetch("https://dummyjson.com/products");
+    const products = await res.json();
+    setMyProducts(products.products);
+  };
+
+  const filterData = () => {
+    //filter with
+    console.log(category, myProducts);
+  };
+
+  useEffect(() => {
+    if (myProducts.length <= 0) return;
+    setProducts(myProducts);
+  }, [myProducts]);
+
+  useEffect(() => {
+    if (category === "all") fetchData();
+    else filterData();
+  }, []);
 
   return (
     <main className="flex min-h-screen items-center gap-[5rem] px-[4rem]">
@@ -39,7 +59,7 @@ const categoryPage = async ({ params: { category } }: PageProps) => {
           Donate
         </Link>
       </article>
-      <ProductCards products={products} />
+      {products && <ProductCards products={products} />}
     </main>
   );
 };
