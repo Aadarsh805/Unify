@@ -5,6 +5,7 @@
 import useStore from "@/app/store/store";
 import deleteFromInterestedProducts from "@/server/deleteFromInterestedProducts";
 import insertToInterestedProducts from "@/server/insertToInterestedProducts";
+import { useRouter } from "next/navigation";
 import { FC, useEffect, useState } from "react";
 
 /* eslint-disable @next/next/no-img-element */
@@ -26,6 +27,7 @@ type PageProps = {
 };
 
 const productDetailsPage: FC<PageProps> = ({ params: { productId } }) => {
+  const router = useRouter();
   const [product, setProduct] = useState({
     id: "",
     title: "",
@@ -88,6 +90,8 @@ const productDetailsPage: FC<PageProps> = ({ params: { productId } }) => {
               onClick={() => {
                 if (isUser) {
                   manageInterestList();
+                } else {
+                  router.push("/login");
                 }
               }}
               className={`w-fit rounded-full border border-[#Af7A0f] p-[.15rem] ${

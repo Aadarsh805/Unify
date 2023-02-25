@@ -5,12 +5,14 @@ import useStore from "@/app/store/store";
 import deleteFromInterestedProducts from "@/server/deleteFromInterestedProducts";
 import insertToInterestedProducts from "@/server/insertToInterestedProducts";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type Props = {
   product: any;
 };
 
 function ProductCard({ product }: Props) {
+  const router = useRouter();
   const { userProfile, interestedProduct } = useStore((state: any) => ({
     userProfile: state.userProfile,
     interestedProduct: state.interestedProduct,
@@ -31,7 +33,6 @@ function ProductCard({ product }: Props) {
   };
 
   return (
-
     <div className="flex h-[22rem] w-[17rem] flex-col overflow-hidden rounded-t-[15rem] rounded-b-[.3rem] border-[3px] border-[#Af7A0f] ">
       <Link href={`/explore/cat/${product.id}`} className="h-[22rem] w-[17rem]">
         <img
@@ -46,6 +47,8 @@ function ProductCard({ product }: Props) {
         onClick={() => {
           if (isUser) {
             manageInterestList();
+          } else {
+            router.push("/login");
           }
         }}
         className={`bg-[#Af7A0f] py-3 text-[#F4F1E7] ${
