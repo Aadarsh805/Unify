@@ -40,7 +40,6 @@ function ProductCard({ product }: Props) {
         src={product.thumbnail}
         alt=""
       />
-      {/* todo: if already interested render another button */}
       <button
         onClick={() => {
           if (isUser) {
