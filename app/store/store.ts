@@ -11,6 +11,7 @@ interface IInterestedProduct {
 }
 
 type StoreValues = {
+  userId: string;
   email: string;
   username: string;
   password: string;
@@ -25,9 +26,11 @@ type StoreValues = {
   setInterestedProduct: (product: any) => void;
   setNotificationCount: (count: number) => void;
   setMyProducts: (products: any) => void;
+  setUserId: (id: string) => void;
 };
 
 const useStore = create<StoreValues>((set, get) => ({
+  userId: "",
   email: "",
   password: "",
   username: "",
@@ -73,6 +76,12 @@ const useStore = create<StoreValues>((set, get) => ({
   setMyProducts: (products: any) => {
     set({
       myProducts: products,
+    });
+  },
+
+  setUserId: (id: string) => {
+    set({
+      userId: id,
     });
   },
 }));

@@ -1,11 +1,10 @@
 "use client";
 
-import { noto_serif } from "@/public/assets/fonts/font";
-import Navbar from "./components/Navbar";
-import supabase from "@/server/supabase";
-import getUserDetails from "@/server/utils/getUserDetails";
-import { useEffect } from "react";
 import LayoutWrapper from "@/components/wrappers/LayoutWrapper";
+import { noto_serif } from "@/public/assets/fonts/font";
+import supabase from "@/server/supabase";
+import { useEffect } from "react";
+import Navbar from "./components/Navbar";
 import "./globals.css";
 import Head from "./head";
 import useStore from "./store/store";
@@ -15,9 +14,17 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
- const onSignIn = async () => {
+  const { userProfile, userId, setUserId } = useStore((state) => ({
+    userProfile: state.userProfile,
+    userId: state.userId,
+    setUserId: state.setUserId,
+  }));
+
+  const onSignIn = async () => {
     const { data } = await supabase.auth.getUser();
     const { id }: any = data?.user as any;
+    setUserId(id);
+
     console.log(id);
   };
   // useEffect(() => {
@@ -41,15 +48,15 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <Head />        
+      <Head />
       <body
         style={{
           fontFamily: `${noto_serif.className}`,
         }}
-        className="bg-[#F4F1E7] no-scrollbar"
+        className="no-scrollbar bg-[#F4F1E7]"
       >
         <Navbar />
-       <LayoutWrapper>{children}</LayoutWrapper>
+        <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>
   );
