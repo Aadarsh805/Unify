@@ -40,13 +40,13 @@ function ProductCards({ products }: Props) {
 
   return (
     <div className="testimonial-cards ">
-      <div className="mx-auto  px-4 ">
-        <div className="grid grid-cols-1 gap-y-8  ">
-          <div className="">
-            <div className="swiper-container !overflow-hidden ">
-              <div className="swiper-wrapper space-x-10">
-                {products &&
-                  products.products.map((product: any) => (
+      <div className="mx-auto  px-4 py-24 ">
+        <div className="grid grid-cols-1 gap-y-8 ">
+          <div className="-mx-6 p-4 ">
+            <div className="swiper-container !overflow-hidden">
+              <div className="swiper-wrapper">
+                {Array.isArray(products) &&
+                  products.map((product: any) => (
                     <div className="swiper-slide" key={product.id}>
                       <ProductCard product={product} />
                     </div>

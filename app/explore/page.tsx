@@ -1,12 +1,17 @@
-import Link from "next/link";
-import ProductCards from "../components/ProductCards";
-import downArrow from "public/assets/images/downArrow.png";
-import Image from "next/image";
 import { noto_serif, open_sans } from "@/public/assets/fonts/font";
+import supabase from "@/server/supabase";
+import Image from "next/image";
+import Link from "next/link";
+import downArrow from "public/assets/images/downArrow.png";
+import ProductCards from "../components/ProductCards";
 
 async function getProducts() {
-  const res = await fetch("https://dummyjson.com/products");
-  return res.json();
+  const { data: products } = await supabase
+    .from("products")
+    .select("id,product_image,owner_id,category,created_at");
+  return {
+    products,
+  };
 }
 
 type PageProps = {
@@ -16,8 +21,7 @@ type PageProps = {
 };
 
 const explorePage = async () => {
-  const products = await getProducts();
-
+  const { products } = await getProducts();
   return (
     <main
       className="mt-20 flex items-start  gap-[5rem] px-[4rem]"
@@ -27,16 +31,22 @@ const explorePage = async () => {
         <h1
           className={`text-6xl font-bold text-[#1C1C1C]/90 ${noto_serif.className}`}
         >
-          Explore  <span className="text-[#AF7A0F]">Our</span> Diverse Collection
+          Explore <span className="text-[#AF7A0F]">Our</span> Diverse Collection
         </h1>
         <div className="flex items-start gap-2">
-          <Image className="w-14" src={downArrow} alt="down_arrow" />
+          <Image
+            className="w-14"
+            src={downArrow}
+            alt="down_arrow"
+            width={144}
+            height={144}
+          />
           <p className={`text-xl text-[#1c1c1c]/90 ${noto_serif.className}`}>
             Discover a World of Treasures Across All Categories
           </p>
         </div>
         <Link
-          className={`w-fit rounded-sm bg-[#Af7A0f] px-[6rem] py-3 text-[#F4F1E7] uppercase font-bold ${open_sans.className}`}
+          className={`w-fit rounded-sm bg-[#Af7A0f] px-[6rem] py-3 font-bold uppercase text-[#F4F1E7] ${open_sans.className}`}
           href="/"
         >
           Donate

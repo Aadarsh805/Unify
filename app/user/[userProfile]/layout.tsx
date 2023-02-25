@@ -1,31 +1,58 @@
+/* eslint-disable @next/next/no-img-element */
+"use client";
+import supabase from "@/server/supabase";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [owner, setOwner] = useState<any>({});
+  const path = usePathname();
+  let profileId = "";
+  if (path) profileId = path.substring(path.lastIndexOf("/") + 1, path.length);
+
+  const getOwnerData = async (ownerId: string) => {
+    const { data: userData } = await supabase
+      .from("users")
+      .select("username,id")
+      .eq("id", ownerId);
+
+    if (userData && userData[0]) {
+      setOwner(userData[0]);
+    } else setOwner({});
+  };
+
+  useEffect(() => {
+    getOwnerData(profileId);
+  }, [profileId]);
+
   return (
     <main>
-      <div className="text-xl flex gap-16 items-center px-[3rem]">
+      <div className="flex items-center gap-16 px-[3rem] text-xl">
         <img
-          className="rounded-full w-[10rem]"
+          className="w-[10rem] rounded-full"
           src="https://randomuser.me/api/portraits/men/23.jpg"
           alt=""
         />
         <div>
-          <h1 className="text-3xl text-[#Af7A0f] font-bold">Manish bisht</h1>
+          <h1 className="text-3xl font-bold text-[#Af7A0f]">
+            {owner.username}
+          </h1>
           <p className="text-xl text-[#1c1c1c]/90">
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Beatae,
             quo!
           </p>
         </div>
       </div>
-      <div className="flex text-xl p-[3rem]">
-        <div className="flex flex-col gap-5 px-10 border-[#1c1c1c]/60 border-r-[3px]">
+      <div className="flex p-[3rem] text-xl">
+        <div className="flex flex-col gap-5 border-r-[3px] border-[#1c1c1c]/60 px-10">
           <Link
             href="/manish"
-            className="text-[#AF7A0F]  border-[#AF7A0F] border-l-4 px-3"
+            className="border-l-4  border-[#AF7A0F] px-3 text-[#AF7A0F]"
           >
             profile
           </Link>

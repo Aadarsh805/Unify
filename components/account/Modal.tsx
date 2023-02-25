@@ -1,5 +1,9 @@
 "use client";
 
+import ProductModalImage from "@/app/components/ProductModalImage";
+import useStore from "@/app/store/store";
+import supabase from "@/server/supabase";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 type Props = {
@@ -7,13 +11,15 @@ type Props = {
 };
 
 function Modal({ setShowModal }: Props) {
+  const router = useRouter();
   const [itemInfo, setItemInfo] = useState({
-    name: "",
+    title: "",
     description: "",
     category: "",
     image: "",
     culture: "",
   });
+  const [img_url, setEventImageUrl] = useState("");
 
   const handleItemInfoChange = (e: any) => {
     setItemInfo({
@@ -21,10 +27,56 @@ function Modal({ setShowModal }: Props) {
       [e.target.name]: e.target.value,
     });
   };
+  const { userProfile, userId } = useStore((state: any) => ({
+    userProfile: state.userProfile,
+    userId: state.userId,
+  }));
 
-  const handleSubmit = (e: any) => {
+  const createProduct = async (e: any) => {
     e.preventDefault();
-    console.log(itemInfo);
+
+    console.log("myyaiejl", {
+      title: itemInfo.title,
+      category: itemInfo.category,
+      culture: itemInfo.culture,
+      description: itemInfo.description,
+      owner_id: userId,
+      product_image: img_url,
+    });
+
+    console.log(userProfile, "uspp");
+    console.log(userId, "sidi");
+
+    const { data, error } = await supabase.from("products").insert([
+      {
+        title: itemInfo.title,
+        category: itemInfo.category,
+        culture: itemInfo.culture,
+        description: itemInfo.description,
+        owner_id: userId,
+        product_image: img_url,
+      },
+    ]);
+    if (data) {
+      console.log(data, "success");
+    } else console.log(error, "error some");
+    router.push("/account");
+    setShowModal(false);
+  };
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    if (
+      itemInfo.title &&
+      itemInfo.category &&
+      itemInfo.culture &&
+      itemInfo.description
+    ) {
+      createProduct(e);
+    } else {
+      console.log(itemInfo);
+      alert("fill all input fields");
+    }
   };
 
   return (
@@ -54,9 +106,6 @@ function Modal({ setShowModal }: Props) {
                   placeholder="Name of item"
                   onChange={(e) => handleItemInfoChange(e)}
                 />
-                {/* <p className="text-xs italic text-red-500">
-                Please fill out this field.
-              </p> */}
               </div>
               <div className="w-full px-3 md:w-1/2">
                 <label
@@ -108,12 +157,12 @@ function Modal({ setShowModal }: Props) {
                 />
               </div>
 
-              <div className="mx-3 flex w-full items-center justify-center border-2 border-dashed border-[#Af7A0f] p-10">
-                <input
-                  type="file"
-                  name="image"
-                  id="image"
-                  onChange={(e) => handleItemInfoChange(e)}
+              <div className="mx-3 flex w-full items-center justify-center border-2 border-dashed border-[#Af7A0f] p-4">
+                <ProductModalImage
+                  url={img_url}
+                  onUpload={(url) => {
+                    setEventImageUrl(url);
+                  }}
                 />
               </div>
             </div>

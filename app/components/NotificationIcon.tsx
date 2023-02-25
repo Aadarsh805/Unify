@@ -1,11 +1,10 @@
-import React, { FC } from "react";
-import { BsFillBellFill } from "react-icons/bs";
+import { open_sans } from "@/public/assets/fonts/font";
 import Badge from "@mui/material/Badge";
-import useStore from "../store/store";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import Link from "next/link";
-import { open_sans } from "@/public/assets/fonts/font";
+import React, { FC } from "react";
+import { BsFillBellFill } from "react-icons/bs";
+import useStore from "../store/store";
 
 const notification = [
   "notification 1",
@@ -16,7 +15,6 @@ const notification = [
 ];
 
 const NotificationIcon: FC = () => {
-
   const notificationCount = useStore((state) => state.notificationCount);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -47,11 +45,11 @@ const NotificationIcon: FC = () => {
         }}
         className={` mt-4 -ml-24 ${open_sans.className}`}
       >
-            {notification.map((noti, indx) => (
-                <MenuItem onClick={handleClose}>
-                    {noti}
-                </MenuItem>
-            ))}
+        {notification.map((noti, indx) => (
+          <MenuItem key={indx} onClick={handleClose}>
+            {noti}
+          </MenuItem>
+        ))}
       </Menu>
     </div>
   );
