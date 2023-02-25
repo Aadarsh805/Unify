@@ -15,20 +15,23 @@ type StoreValues = {
   username: string;
   password: string;
   userProfile: User;
-  interestedProduct: IInterestedProduct[];
+  interestedProduct: any;
+  myProducts: any;
   notificationCount: number;
   setEmail: (email: string) => void;
   setPassword: (password: string) => void;
   setUsername: (username: string) => void;
   setUserProfile: ({ username, email }: User) => void;
-  setInterestedProduct: (product: []) => void;
+  setInterestedProduct: (product: any) => void;
   setNotificationCount: (count: number) => void;
+  setMyProducts: (products: any) => void;
 };
 
 const useStore = create<StoreValues>((set, get) => ({
   email: "",
   password: "",
   username: "",
+  myProducts: [],
   interestedProduct: [],
   notificationCount: 1,
   userProfile: { id: "", username: "", email: "" },
@@ -49,7 +52,7 @@ const useStore = create<StoreValues>((set, get) => ({
       username: name,
     });
   },
-  setInterestedProduct: (products: IInterestedProduct[]) => {
+  setInterestedProduct: (products: any) => {
     set({
       interestedProduct: products,
     });
@@ -64,6 +67,12 @@ const useStore = create<StoreValues>((set, get) => ({
   setNotificationCount: (count: number) => {
     set({
       notificationCount: count,
+    });
+  },
+
+  setMyProducts: (products: any) => {
+    set({
+      myProducts: products,
     });
   },
 }));
