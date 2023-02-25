@@ -1,11 +1,11 @@
 import Link from "next/link";
 import type { FC } from "react";
 
-const Sidebar: FC= () => {
+const Sidebar: FC = () => {
   return (
     <aside className="float-left flex min-h-screen flex-col gap-5  px-[3rem] pt-[6rem] text-xl">
       <Link
-        href="/explore"
+        href="/explore/all"
         className="border-l-4  border-[#AF7A0F] px-3 text-[#AF7A0F]"
       >
         All
