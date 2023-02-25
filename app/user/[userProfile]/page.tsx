@@ -3,13 +3,12 @@
 import Image from "next/image";
 import tradition from "public/assets/images/tradition.png";
 
-/* eslint-disable react-hooks/rules-of-hooks */
 import deleteFromInterestedProducts from "@/server/deleteFromInterestedProducts";
 import insertToInterestedProducts from "@/server/insertToInterestedProducts";
 import { usePathname } from "next/navigation";
 import useStore from "../../store/store";
 
-const userProfilePage = () => {
+const UserProfilePage = () => {
   // shouls contain owner_id;
   const products = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
   const path = usePathname();
@@ -17,7 +16,8 @@ const userProfilePage = () => {
     userProfile: state.userProfile,
     interestedProduct: state.interestedProduct,
   }));
-  const profileId = path.substring(path.lastIndexOf("/") + 1, path.length);
+  let profileId;
+  if (path) profileId = path.substring(path.lastIndexOf("/") + 1, path.length);
   const userId = userProfile.id;
 
   const isShowInterestButton = profileId !== userId;
@@ -72,4 +72,4 @@ const userProfilePage = () => {
   );
 };
 
-export default userProfilePage;
+export default UserProfilePage;
