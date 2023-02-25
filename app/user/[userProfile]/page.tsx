@@ -1,54 +1,36 @@
 "use client";
 
 import Image from "next/image";
+import tradition from "public/assets/images/tradition.png";
 
 import deleteFromInterestedProducts from "@/server/deleteFromInterestedProducts";
 import insertToInterestedProducts from "@/server/insertToInterestedProducts";
-import supabase from "@/server/supabase";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import useStore from "../../store/store";
 
 const UserProfilePage = () => {
   const router = useRouter();
-  const [products, setProducts] = useState<any[]>([]);
-
+  // shouls contain owner_id;
+  const products = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
   const path = usePathname();
-  const { userProfile, interestedProduct, baseUrl } = useStore(
-    (state: any) => ({
-      userProfile: state.userProfile,
-      interestedProduct: state.interestedProduct,
-      baseUrl: state.baseUrl,
-    })
-  );
-  let profileId = "";
+  const { userProfile, interestedProduct } = useStore((state: any) => ({
+    userProfile: state.userProfile,
+    interestedProduct: state.interestedProduct,
+  }));
+  let profileId;
   if (path) profileId = path.substring(path.lastIndexOf("/") + 1, path.length);
   const userId = userProfile.id;
+
   const isShowInterestButton = profileId !== userId;
 
-  const fetchProducts = async (ownerId: string) => {
-    const { data } = await supabase
-      .from("products")
-      .select("id,product_image")
-      .eq("owner_id", ownerId);
-
-    if (data && data.length) {
-      setProducts(data);
-    } else setProducts([]);
-  };
-  useEffect(() => {
-    if (profileId) {
-      fetchProducts(profileId);
-    }
-  }, [profileId]);
-
-  const manageInterestList = async (id: string) => {
+  const manageInterestList = async (id: number) => {
     const isAlreadyIntested = interestedProduct.includes(id) as boolean;
     // if (userId === product.owner_id) return;
     const productDetails = {
       id: Number(id),
       interested_by: userProfile.id as string,
     };
+    console.log(productDetails);
     if (isAlreadyIntested) {
       await deleteFromInterestedProducts(productDetails);
     } else {
@@ -68,16 +50,14 @@ const UserProfilePage = () => {
             <div className="relative h-[15rem] w-[15rem] overflow-hidden rounded-md border-[3px] border-[#Af7A0f]">
               <Image
                 className="-z-10 h-full w-full object-cover object-center"
-                src={`${baseUrl}/${product.product_image}`}
+                src={tradition}
                 alt="something"
-                width={256}
-                height={256}
               />
               {isShowInterestButton && (
                 <button
                   onClick={() => {
                     if (userId) {
-                      manageInterestList(product.id);
+                      manageInterestList(product);
                     } else {
                       router.push("/login");
                     }

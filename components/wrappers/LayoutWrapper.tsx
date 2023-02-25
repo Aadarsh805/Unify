@@ -137,55 +137,11 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
         if (owner_id === userId) {
           // checking if the product interested was mine or not
           console.log(username + " " + "interested your" + " " + title);
-          const pushInterestedNoti = async () => {
-            const { data, error } = await supabase.from("notification").insert([
-              {
-                notification_text: `${
-                  username + " " + "interested your" + " " + title
-                }`,
-                notification_type: "interested",
-                interested_user: interestedBy,
-                owner_id: userId,
-              },
-            ]);
-            if (data) console.log(data, "succesfully added notification");
-            else console.log(error, "error in adding noti");
-          };
-          pushInterestedNoti();
         }
       };
       if (myInterestedProducts.includes(interestedBy)) {
-        console.log("Match found with" + "" + interestedBy);
-        const pushMatchNoti = async () => {
-          const { data: notidata, error: notierror } = await supabase
-            .from("notification")
-            .insert([
-              {
-                notification_text: `${"Match found with" + "" + interestedBy}`,
-                notification_type: "matched",
-                interested_user: interestedBy,
-                owner_id: userId,
-              },
-            ]);
-          if (notidata) console.log(notidata, "succesfully match noti added");
-          else console.log(notierror, "error in adding match notifi");
-        };
-        pushMatchNoti();
-
-        const pushMatchData = async () => {
-          const { data: matchData, error: matchError } = await supabase
-            .from("match")
-            .insert([
-              {
-                matched_user: interestedBy,
-                owner_id: userId,
-              },
-            ]);
-
-          if (matchData) console.log(matchData, "succesfully added match");
-          else console.log(matchError, "error in adding match");
-        };
-        pushMatchData();
+        console.log("match found");
+        console.log(myInterestedProducts, "my");
       }
       getNotification();
     }

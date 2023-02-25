@@ -1,28 +1,9 @@
 "use client";
 
 import ProductCards from "@/app/components/ProductCards";
-import { noto_serif, open_sans } from "@/public/assets/fonts/font";
-import supabase from "@/server/supabase";
 import useStore from "@/app/store/store";
 import Link from "next/link";
-import downArrow from "public/assets/images/downArrow.png";
-import Image from "next/image";
-
-async function getProducts(category: string) {
-  const { data } = await supabase
-    .from("products")
-    .select("id,product_image,owner_id,category,created_at")
-    .eq("category", category);
-
-  if (data && Array.isArray(data)) {
-    return {
-      products: data,
-    };
-  } else
-    return {
-      products: [],
-    };
-}
+import { useEffect, useState } from "react";
 
 type PageProps = {
   params: {
@@ -30,34 +11,49 @@ type PageProps = {
   };
 };
 
-const categoryPage = async ({ params: { category } }: PageProps) => {
-  const { products } = await getProducts(category);
+const categoryPage = ({ params: { category } }: PageProps) => {
+  const [products, setProducts] = useState<any>();
+
+  const { setMyProducts, myProducts } = useStore((state) => ({
+    setMyProducts: state.setMyProducts,
+    myProducts: state.myProducts,
+  }));
+
+  const fetchData = async () => {
+    const res = await fetch("https://dummyjson.com/products");
+    const products = await res.json();
+    setMyProducts(products.products);
+  };
+
+  const filterData = () => {
+    //filter with
+    console.log(category, myProducts);
+  };
+
+  useEffect(() => {
+    if (myProducts.length <= 0) return;
+    setProducts(myProducts);
+  }, [myProducts]);
+
+  useEffect(() => {
+    if (category === "all") fetchData();
+    else filterData();
+  }, []);
 
   return (
-    <main
-      className="mt-20 flex items-start gap-[5rem] px-[4rem]"
-      style={{ height: "calc(100vh - 193px)" }}
-    >
-      <article className="flex w-full flex-col gap-5">
-        <h1
-          className={`text-6xl font-bold text-[#1C1C1C]/90 ${noto_serif.className}`}
-        >
-          Explore <span className="text-[#AF7A0F]">Our</span> Diverse Collection
+    <main className="flex min-h-screen items-center gap-[5rem] px-[4rem]">
+      <article className="flex w-[30%] flex-col gap-5">
+        <h1 className="text-6xl font-bold text-[#1C1C1C]/90">
+          Explore Our <span className="text-[#AF7A0F]">Diverse</span> Collection
         </h1>
-        <div className="flex items-start gap-3">
-          <Image
-            className="w-14"
-            src={downArrow}
-            width={144}
-            height={144}
-            alt="down_arrow"
-          />
-          <p className={`text-xl text-[#1c1c1c]/90 ${noto_serif.className}`}>
+        <div className="flex items-center gap-3">
+          <img className="w-10" src="/assets/images/downArrow.png" alt="" />
+          <p className="text-xl text-[#1c1c1c]/90">
             Discover a World of Treasures Across All Categories
           </p>
         </div>
         <Link
-          className={`w-fit rounded-sm bg-[#Af7A0f] px-[6rem] py-3 font-bold uppercase text-[#F4F1E7] ${open_sans.className}`}
+          className="w-fit rounded-sm bg-[#Af7A0f] px-[6rem] py-3 text-[#F4F1E7]"
           href="/"
         >
           Donate

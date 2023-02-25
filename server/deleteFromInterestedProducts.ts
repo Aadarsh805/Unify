@@ -1,7 +1,7 @@
 import supabase from "@/server/supabase";
 
 interface IInterestedProduct {
-  product_id: number;
+  id: number;
   interested_by: string;
 }
 
@@ -9,9 +9,9 @@ export default async function deleteFromInterestedProducts(
   payload: IInterestedProduct
 ) {
   const { error } = await supabase
-    .from("interested_products")
+    .from("interest_products")
     .delete()
-    .eq("product_id", payload.product_id);
+    .match(payload);
   if (error) {
     // handle delete error
   }

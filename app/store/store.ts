@@ -19,7 +19,6 @@ type StoreValues = {
   interestedProduct: any;
   myProducts: any;
   notificationCount: number;
-  baseUrl: string;
   setEmail: (email: string) => void;
   setPassword: (password: string) => void;
   setUsername: (username: string) => void;
@@ -38,8 +37,6 @@ const useStore = create<StoreValues>((set, get) => ({
   myProducts: [],
   interestedProduct: [],
   notificationCount: 1,
-  baseUrl:
-    "https://nxlkzsdcwscprmiqcqiu.supabase.co/storage/v1/object/public/product-images",
   userProfile: { id: "", username: "", email: "" },
 
   setEmail: (email: string) => {
