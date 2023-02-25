@@ -20,7 +20,7 @@ const userProfilePage = () => {
               <Image
                 className="h-full w-full object-cover"
                 src={tradition}
-                alt="something"
+                alt="userProduct_img"
               />
             </div>
           </>
