@@ -1,15 +1,19 @@
 "use client";
 
+import { noto_serif, open_sans } from "@/public/assets/fonts/font";
 import Link from "next/link";
 import type { FC } from "react";
-import { open_sans, noto_serif } from "@/public/assets/fonts/font";
 import React from "react";
-import NotificationIcon from "./NotificationIcon";
+import useStore from "../store/store";
 import NavbarButton from "./NavbarButton";
+import NotificationIcon from "./NotificationIcon";
 
 type NavbarProps = {};
 
 const Navbar: FC<NavbarProps> = () => {
+  const { userProfile } = useStore((state: any) => ({
+    userProfile: state.userProfile,
+  }));
   const navLists = [
     {
       name: "home",
@@ -29,7 +33,7 @@ const Navbar: FC<NavbarProps> = () => {
     },
   ];
 
-  const user = true;
+  const user = userProfile.id;
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -52,7 +56,7 @@ const Navbar: FC<NavbarProps> = () => {
         </Link>
         <ul className="flex items-center gap-20 ">
           {navLists.map((list) => (
-            <Link href={list.route}>
+            <Link key={list.name} href={list.route}>
               <li
                 className={`cursor-pointer font-semibold uppercase tracking-wider text-[1D1C1B] ${open_sans.className}`}
               >
