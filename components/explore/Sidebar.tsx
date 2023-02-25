@@ -30,8 +30,8 @@ const Sidebar: FC = () => {
       {navLists.map((list) => (
         <Link
           href={list.route}
+          className="border-l-4  border-[#AF7A0F] px-5 py-2 text-[#AF7A0F] hover:bg-[#AF7A0F]/20 "
           key={list.name}
-          className="border-l-4  border-[#AF7A0F] px-3 text-[#AF7A0F]"
         >
           {list.name}
         </Link>
