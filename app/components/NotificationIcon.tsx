@@ -17,7 +17,6 @@ const notification = [
 
 const NotificationIcon: FC = () => {
 
-
   const notificationCount = useStore((state) => state.notificationCount);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
