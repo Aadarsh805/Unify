@@ -1,9 +1,9 @@
 "use client";
 
 import { noto_serif } from "@/public/assets/fonts/font";
+import Navbar from "./components/Navbar";
 import supabase from "@/server/supabase";
 import { useEffect } from "react";
-import Navbar from "./components/Navbar";
 import "./globals.css";
 import Head from "./head";
 
