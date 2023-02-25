@@ -1,5 +1,6 @@
 "use client";
 
+import useStore from "@/app/store/store";
 import supabase from "@/server/supabase";
 import type { RealtimeChannel } from "@supabase/realtime-js";
 import { FC, ReactNode, useEffect, useState } from "react";
@@ -8,12 +9,21 @@ type LayoutWrapperProps = {
   children: ReactNode;
 };
 
+interface IInterestedProduct {
+  product_id: number;
+}
+
 const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
   const [newNotification, setNewNotification] = useState<any>();
   const [interestedBy, setInterestedBy] = useState<string>("");
   const [productInterested, setProductInterested] = useState<string>("");
   const [myInterestedProducts, setMyInterestedProducts] = useState<any[]>([]);
   const [userId, setUserId] = useState("");
+
+  const { interestedProduct, setInterestedProduct } = useStore((state) => ({
+    interestedProduct: state.interestedProduct,
+    setInterestedProduct: state.setInterestedProduct,
+  }));
 
   console.log(userId);
   useEffect(() => {
@@ -55,6 +65,7 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
   }, []);
 
   // call this everytime I interest a product
+  // getting my interest on page render
   useEffect(() => {
     const getMyInterested = async () => {
       const { data: myData } = await supabase.auth.getUser();
@@ -67,6 +78,7 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
         .eq("interested_by", myId);
       const a: any = myInterested?.map((item: any) => item?.products?.owner_id);
       setMyInterestedProducts(a);
+      setInterestedProduct(a);
     };
     getMyInterested();
   }, []);
