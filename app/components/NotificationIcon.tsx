@@ -5,19 +5,51 @@ import supabase from "@/server/supabase";
 import Badge from "@mui/material/Badge";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
+
 import { BsFillBellFill } from "react-icons/bs";
 import useStore from "../store/store";
+import NotificationMessage from "./NotificationMessage";
 
-const notification = [
-  "notification 1",
-  "notification 2",
-  "notification 3",
-  "notification 4",
-  "notification 5",
+const notificationData = [
+  {
+    type: "interested",
+    text: "interested your",
+    username: "Somidh",
+    product: "shoes",
+  },
+  {
+    type: "matched",
+    text: "Match found with",
+    username: "Somidh",
+  },
+  {
+    type: "interested",
+    text: "interested your",
+    username: "Somidh",
+    product: "shoes",
+  },
+  {
+    type: "matched",
+    text: "Match found with",
+    username: "Somidh",
+  },
+  {
+    type: "interested",
+    text: "interested your",
+    username: "Somidh",
+    product: "shoes",
+  },
+  {
+    type: "matched",
+    text: "Match found with",
+    username: "Somidh",
+  },
 ];
 
 const NotificationIcon: FC = () => {
+  const [showAll, setShowAll] = useState(false);
+
   const notificationCount = useStore((state) => state.notificationCount);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -27,6 +59,7 @@ const NotificationIcon: FC = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   const { userId, notifications, setNotifications } = useStore((state) => ({
     userId: state.userId,
     notifications: state.notifications,
@@ -47,6 +80,12 @@ const NotificationIcon: FC = () => {
     fetchNotifications();
   }, []);
 
+
+  const handleShowAll = () => {
+    setShowAll((prev) => !prev);
+  };
+
+
   return (
     <div className="cursor-pointer text-2xl">
       <Badge badgeContent={notificationCount} color="primary">
@@ -66,13 +105,33 @@ const NotificationIcon: FC = () => {
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
-        className={` mt-4 -ml-24 ${open_sans.className}`}
+        className={` mt-4 -ml-40   ${open_sans.className}`}
       >
-        {notification.map((noti: any, indx: any) => (
-          <MenuItem key={indx} onClick={handleClose}>
-            {noti}
-          </MenuItem>
-        ))}
+        {notificationData.slice(0, 5).map((notification, indx) => {
+          const { type, text, username, product } = notification;
+
+          return (
+            <MenuItem key={indx} onClick={handleClose}>
+              {type === "interested" ? (
+                <NotificationMessage
+                  text={text}
+                  username={username}
+                  product={product}
+                />
+              ) : (
+                <NotificationMessage text={text} username={username} />
+              )}
+            </MenuItem>
+          );
+        })}
+        {notificationData.length > 5 && (
+          <button
+            className={`ml-[50%] -translate-x-1/2 rounded-md bg-[#AF7A0F] px-8 py-2 font-bold uppercase text-[#F4F1E7] w-[90%] ${open_sans.className}`}
+            onClick={handleShowAll}
+          >
+            {!showAll ? "Show All" : "Hide"}
+          </button>
+        )}
       </Menu>
     </div>
   );
