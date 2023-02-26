@@ -89,7 +89,7 @@ const NotificationIcon: FC = () => {
 
   return (
     <div className="cursor-pointer text-2xl">
-      <Badge badgeContent={notificationCount} color="primary">
+      <Badge badgeContent={notifications.length} color="primary">
         <button
           id="basic-button"
           onClick={handleClick}
