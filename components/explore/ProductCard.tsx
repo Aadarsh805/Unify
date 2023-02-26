@@ -59,7 +59,10 @@ function ProductCard({ product }: Props) {
 
   return (
     <div className="relative flex h-[25rem] w-[20rem] flex-col overflow-hidden rounded-t-[15rem] rounded-b-[.3rem] border-[3px] border-[#Af7A0f] ">
-      <Link href={`/explore/cat/${product.id}`} className="h-full w-full">
+      <Link
+        href={`/explore/${product.category}/${product.id}`}
+        className="h-full w-full"
+      >
         <Image
           className="h-full w-full bg-cover object-cover"
           src={`${base_url}/${product.product_image}`}
