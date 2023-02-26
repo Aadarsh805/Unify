@@ -68,7 +68,7 @@ const NotificationIcon: FC = () => {
         }}
         className={` mt-4 -ml-24 ${open_sans.className}`}
       >
-        {notifications.map((noti: any, indx: any) => (
+        {notification.map((noti: any, indx: any) => (
           <MenuItem key={indx} onClick={handleClose}>
             {noti}
           </MenuItem>
