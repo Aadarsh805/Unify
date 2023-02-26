@@ -44,8 +44,6 @@ function Modal({ setShowModal }: Props) {
       product_image: img_url,
     });
 
-    console.log(userProfile, "uspp");
-    console.log(userId, "sidi");
 
     const { data, error } = await supabase.from("products").insert([
       {

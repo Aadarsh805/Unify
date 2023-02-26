@@ -65,7 +65,7 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
     }
   };
 
-  console.log(userId);
+  // console.log(userId);
   useEffect(() => {
     let channel: RealtimeChannel;
     const mySubscription = async () => {
@@ -135,8 +135,11 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
       const fetchNotifications = async () => {
         const { data, error } = await supabase
           .from("notification")
-          .select("*")
-          .eq("owner_id", userId);
+          .select("notification_text, users(id, username)")
+          .eq("owner_id", userId)
+          .order("created_at", {
+            ascending: false,
+          });
         if (data) {
           setNotifications(data);
           console.log(data, "notifidata");
@@ -179,17 +182,31 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
         }
       };
 
-      if (myInterestedProducts.includes(interestedBy)) {
+      if (
+        myInterestedProducts
+          .map((products) => products.owner_id)
+          .includes(interestedBy)
+      ) {
         console.log("Match found with" + "" + interestedBy);
         const pushMatchNoti = async () => {
+          const { data } = await supabase
+            .from("users")
+            .select("username")
+            .eq("id", interestedBy);
+
+          const { username: owner_username } = data?.[0] as any;
+
           const { data: notidata, error: notierror } = await supabase
             .from("notification")
             .insert([
               {
-                notification_text: `${"Match found with" + "" + interestedBy}`,
+                notification_text: `${
+                  "Match found with" + " " + owner_username
+                }`,
                 notification_type: "matched",
                 interested_user: interestedBy,
                 owner_id: userId,
+                owner_name: owner_username,
               },
             ]);
           if (notidata) console.log(notidata, "succesfully match noti added");

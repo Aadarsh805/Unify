@@ -71,14 +71,17 @@ const NotificationIcon: FC = () => {
       const { data, error } = await supabase
         .from("notification")
         .select("*")
-        .eq("owner_id", userId);
+        .eq("owner_id", userId)
+        .order("created_at", {
+          ascending: false,
+        });
       if (data) {
         setNotifications(data);
         console.log(data, "notifidata");
       }
     };
     fetchNotifications();
-  }, []);
+  }, [showAll]);
 
   const handleShowAll = () => {
     setShowAll((prev) => !prev);
