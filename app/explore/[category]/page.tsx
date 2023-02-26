@@ -1,17 +1,23 @@
 "use client";
 
 import ProductCards from "@/app/components/ProductCards";
+import useStore from "@/app/store/store";
+import { noto_serif, open_sans } from "@/public/assets/fonts/font";
 import supabase from "@/server/supabase";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import { noto_serif, open_sans } from "@/public/assets/fonts/font";
-import Image from "next/image";
 import downArrow from "public/assets/images/downArrow.png";
+import { useEffect, useState } from "react";
 
 type PageProps = {};
 
-const categoryPage = ({}: PageProps) => {
+const CategoryPage = ({}: PageProps) => {
+  const { userId } = useStore((state: any) => {
+    return {
+      userId: state.userId,
+    };
+  });
   const path = usePathname();
 
   let category = "";
@@ -25,14 +31,13 @@ const categoryPage = ({}: PageProps) => {
         .select("id,product_image,owner_id,category,created_at");
 
       if (data && Array.isArray(data)) {
-        setProducts(data);
-      } else
-        return {
-          products: [],
-        };
+        if (userId) {
+          setProducts(data.filter((product) => product.owner_id !== userId));
+        } else setProducts(data);
+      } else setProducts([]);
     }
     getProducts();
-  }, [category]);
+  }, [category, userId]);
 
   return (
     <main
@@ -46,13 +51,19 @@ const categoryPage = ({}: PageProps) => {
           Explore <span className="text-[#AF7A0F]">Our</span> Diverse Collection
         </h1>
         <div className="flex items-start gap-3">
-        <Image className="w-14" src={downArrow} alt="down_arrow" />
+          <Image
+            className="w-14"
+            src={downArrow}
+            alt="down_arrow"
+            width={144}
+            height={144}
+          />
           <p className={`text-xl text-[#1c1c1c]/90 ${noto_serif.className}`}>
             Discover a World of Treasures Across All Categories
           </p>
         </div>
         <Link
-          className={`w-fit rounded-sm bg-[#Af7A0f] px-[6rem] py-3 text-[#F4F1E7] uppercase font-bold ${open_sans.className}`}
+          className={`w-fit rounded-sm bg-[#Af7A0f] px-[6rem] py-3 font-bold uppercase text-[#F4F1E7] ${open_sans.className}`}
           href="/"
         >
           Donate
@@ -63,4 +74,4 @@ const categoryPage = ({}: PageProps) => {
   );
 };
 
-export default categoryPage;
+export default CategoryPage;
