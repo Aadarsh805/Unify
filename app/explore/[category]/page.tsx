@@ -1,48 +1,39 @@
 "use client";
 
 import ProductCards from "@/app/components/ProductCards";
-import useStore from "@/app/store/store";
+import supabase from "@/server/supabase";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-type PageProps = {
-  params: {
-    category: string;
-  };
-};
+type PageProps = {};
 
-const categoryPage = ({ params: { category } }: PageProps) => {
-  const [products, setProducts] = useState<any>();
+const categoryPage = ({}: PageProps) => {
+  const path = usePathname();
 
-  const { setMyProducts, myProducts } = useStore((state) => ({
-    setMyProducts: state.setMyProducts,
-    myProducts: state.myProducts,
-  }));
-
-  const fetchData = async () => {
-    const res = await fetch("https://dummyjson.com/products");
-    const products = await res.json();
-    setMyProducts(products.products);
-  };
-
-  const filterData = () => {
-    //filter with
-    console.log(category, myProducts);
-  };
+  let category = "";
+  if (path) category = path.substring(path.lastIndexOf("/") + 1, path.length);
+  const [products, setProducts] = useState<any[]>([]);
 
   useEffect(() => {
-    if (myProducts.length <= 0) return;
-    setProducts(myProducts);
-  }, [myProducts]);
+    async function getProducts() {
+      const { data } = await supabase
+        .from("products")
+        .select("id,product_image,owner_id,category,created_at");
 
-  useEffect(() => {
-    if (category === "all") fetchData();
-    else filterData();
-  }, []);
+      if (data && Array.isArray(data)) {
+        setProducts(data);
+      } else
+        return {
+          products: [],
+        };
+    }
+    getProducts();
+  }, [category]);
 
   return (
-    <main className="flex min-h-screen items-center gap-[5rem] px-[4rem]">
-      <article className="flex w-[30%] flex-col gap-5">
+    <main className="flex  items-center gap-[5rem] px-[4rem]">
+      <article className="flex max-w-[25rem] flex-col gap-5">
         <h1 className="text-6xl font-bold text-[#1C1C1C]/90">
           Explore Our <span className="text-[#AF7A0F]">Diverse</span> Collection
         </h1>
@@ -59,7 +50,7 @@ const categoryPage = ({ params: { category } }: PageProps) => {
           Donate
         </Link>
       </article>
-      {products && <ProductCards products={products} />}
+      <ProductCards products={products} />
     </main>
   );
 };

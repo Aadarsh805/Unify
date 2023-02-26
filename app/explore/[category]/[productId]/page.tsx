@@ -5,19 +5,30 @@
 import useStore from "@/app/store/store";
 import deleteFromInterestedProducts from "@/server/deleteFromInterestedProducts";
 import insertToInterestedProducts from "@/server/insertToInterestedProducts";
+import supabase from "@/server/supabase";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FC, useEffect, useState } from "react";
+const base_url =
+  "https://nxlkzsdcwscprmiqcqiu.supabase.co/storage/v1/object/public/product-images";
 
 /* eslint-disable @next/next/no-img-element */
 
 async function getProductDetails(id: string) {
-  // console.log(category);
-
-  // this is the category we want from api for now not filtering them
-
-  const res = await fetch(`https://dummyjson.com/products/${id}`);
-
-  return res.json();
+  const { data } = await supabase
+    .from("products")
+    .select(
+      "id,title,description,category,culture,interested_count,product_image,users(id,username)"
+    )
+    .eq("id", id);
+  if (data && data[0]) {
+    const { users, ...product } = data[0];
+    return {
+      product,
+      owner: users,
+    };
+  }
+  return null;
 }
 
 type PageProps = {
@@ -26,19 +37,21 @@ type PageProps = {
   };
 };
 
-const productDetailsPage: FC<PageProps> = ({ params: { productId } }) => {
+const ProductDetailsPage: FC<PageProps> = ({ params: { productId } }) => {
   const router = useRouter();
-  const [product, setProduct] = useState({
-    id: "",
-    title: "",
-    description: "",
-    thumbnail: "",
-    owner_id: "",
-  });
+  const [product, setProduct] = useState<any>({});
+  const [owner, setOwner] = useState<any>({});
 
   async function fetchProduct() {
-    const product = await getProductDetails(productId);
-    setProduct(product);
+    const data = (await getProductDetails(productId)) as {
+      product: any;
+      owner: any;
+    };
+    if (data) {
+      const { product, owner } = data;
+      setProduct(product);
+      setOwner(owner);
+    }
   }
   useEffect(() => {
     fetchProduct();
@@ -52,18 +65,19 @@ const productDetailsPage: FC<PageProps> = ({ params: { productId } }) => {
   const isAlreadyIntested = interestedProduct.includes(product.id) as boolean;
 
   const manageInterestList = async () => {
-    if (isUser === product.owner_id) return;
+    if (isUser === owner.id) return;
     const productDetails = {
-      id: Number(product.id),
+      product_id: Number(product.id),
       interested_by: userProfile.id as string,
     };
-    console.log(productDetails);
     if (isAlreadyIntested) {
       await deleteFromInterestedProducts(productDetails);
     } else {
       await insertToInterestedProducts(productDetails);
     }
   };
+
+  const isMyProduct = owner.id === isUser;
 
   return (
     <main className="flex min-h-[85vh] items-center justify-center gap-20 px-[2rem]">
@@ -79,10 +93,19 @@ const productDetailsPage: FC<PageProps> = ({ params: { productId } }) => {
 
           <div className="flex flex-col gap-3 text-2xl font-bold text-[#1c1c1c]/90">
             <p>
-              From <span className="text-[#Af7A0f]">India</span>
+              From <span className="text-[#Af7A0f]">{product.culture}</span>
             </p>
             <p>
-              Posted By <span className="text-[#Af7A0f]">Manish Bisht</span>
+              Posted By{" "}
+              {isMyProduct ? (
+                <Link href={`/account`} className="text-[#Af7A0f]">
+                  {owner.username}
+                </Link>
+              ) : (
+                <Link href={`/user/${owner.id}`} className="text-[#Af7A0f]">
+                  {owner.username}
+                </Link>
+              )}
             </p>
           </div>
           <div className="flex items-center gap-20">
@@ -119,7 +142,10 @@ const productDetailsPage: FC<PageProps> = ({ params: { productId } }) => {
                 alt=""
               />
               <p className="mx-5">
-                <span className="mx-1 text-[#Af7A0f]">4.6k</span>Intrested
+                <span className="mx-1 text-[#Af7A0f]">
+                  {product.interested_count}
+                </span>
+                Intrested
               </p>
             </div>
           </div>
@@ -129,7 +155,7 @@ const productDetailsPage: FC<PageProps> = ({ params: { productId } }) => {
       <div className="flex h-[75vh] w-[27vw] items-end self-end overflow-hidden rounded-t-full border-[3px] border-[#Af7A0f]">
         <img
           className="h-full w-full object-cover"
-          src={product.thumbnail}
+          src={`${base_url}/${product.product_image}`}
           alt=""
         />
       </div>
@@ -137,4 +163,4 @@ const productDetailsPage: FC<PageProps> = ({ params: { productId } }) => {
   );
 };
 
-export default productDetailsPage;
+export default ProductDetailsPage;
