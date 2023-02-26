@@ -25,12 +25,10 @@ const NotificationMessage: FC<NotificationMessageProps> = ({
       <Stack sx={{ width: "100%" }} spacing={2}>
         {product ? (
           <Alert severity="info">
-            <AlertTitle>Info</AlertTitle>
             {username} {text} {product}
           </Alert>
         ) : (
           <Alert severity="success">
-            <AlertTitle>Congrats!</AlertTitle>
             {text} {username}
           </Alert>
         )}

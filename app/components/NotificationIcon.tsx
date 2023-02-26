@@ -100,7 +100,7 @@ const NotificationIcon: FC = () => {
         })}
         {notificationData.length > 5 && (
           <button
-            className={`ml-[50%] -translate-x-1/2 font-bold uppercase text-[#AF7A0F] ${open_sans.className}`}
+            className={`ml-[50%] -translate-x-1/2 rounded-md bg-[#AF7A0F] px-8 py-2 font-bold uppercase text-[#F4F1E7] w-[90%] ${open_sans.className}`}
             onClick={handleShowAll}
           >
             {!showAll ? "Show All" : "Hide"}
