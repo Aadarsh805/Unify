@@ -5,6 +5,7 @@ import Image from "next/image";
 import deleteFromInterestedProducts from "@/server/deleteFromInterestedProducts";
 import insertToInterestedProducts from "@/server/insertToInterestedProducts";
 import supabase from "@/server/supabase";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import useStore from "../../store/store";
@@ -29,7 +30,7 @@ const UserProfilePage = () => {
   const fetchProducts = async (ownerId: string) => {
     const { data } = await supabase
       .from("products")
-      .select("id,product_image")
+      .select("id,product_image,category")
       .eq("owner_id", ownerId);
 
     if (data && data.length) {
@@ -79,9 +80,13 @@ const UserProfilePage = () => {
             .map((prod: any) => Number(prod.product_id))
             .includes(Number(product.id)) as boolean;
 
+          console.log(product);
           return (
             <>
-              <div className="relative h-[15rem] w-[15rem] overflow-hidden rounded-md border-[3px] border-[#Af7A0f]">
+              <Link
+                href={`/explore/${product.category}/${product.id}`}
+                className="relative h-[15rem] w-[15rem] overflow-hidden rounded-md border-[3px] border-[#Af7A0f]"
+              >
                 <Image
                   className="-z-10 h-full w-full object-cover object-center"
                   src={`${baseUrl}/${product.product_image}`}
@@ -103,7 +108,7 @@ const UserProfilePage = () => {
                     {isAlreadyIntested ? "Not Interested" : "Interested"}
                   </button>
                 )}
-              </div>
+              </Link>
             </>
           );
         })}
