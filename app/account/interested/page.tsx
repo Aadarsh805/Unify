@@ -9,7 +9,7 @@ const base_url =
   "https://nxlkzsdcwscprmiqcqiu.supabase.co/storage/v1/object/public/product-images/";
 
 const InterestedPage: FC = () => {
-  const [myInterestedProducts, setMyInterestedProducts] = useState<any>([]);
+  const [myInterestedProducts2, setMyInterestedProducts2] = useState<any>([]);
 
   useEffect(() => {
     const getMyInterested = async () => {
@@ -21,7 +21,7 @@ const InterestedPage: FC = () => {
         .from("interested_products")
         .select("products(id, owner_id, title, product_image, category)")
         .eq("interested_by", myId);
-      setMyInterestedProducts(myInterested);
+      setMyInterestedProducts2(myInterested);
     };
     getMyInterested();
   }, []);
@@ -29,7 +29,7 @@ const InterestedPage: FC = () => {
   return (
     <div className="px-10">
       <div className="flex flex-wrap gap-4">
-        {myInterestedProducts?.map((product: any) => (
+        {myInterestedProducts2?.map((product: any) => (
           <Link
             href={`/explore/${product.products.category}/${product.products.id}`}
             key={product.id}

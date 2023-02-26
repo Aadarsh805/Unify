@@ -55,8 +55,6 @@ function ProductCard({ product }: Props) {
     }
   };
 
-  console.log(isMyProduct);
-
   return (
     <div className="relative flex h-[25rem] w-[20rem] flex-col overflow-hidden rounded-t-[15rem] rounded-b-[.3rem] border-[3px] border-[#Af7A0f] ">
       <Link
