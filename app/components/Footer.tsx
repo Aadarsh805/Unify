@@ -1,7 +1,7 @@
 import { noto_serif, open_sans } from "@/public/assets/fonts/font";
 import Image from "next/image";
 import Link from "next/link";
-import footer_img from "public/assets/images/footer.png";
+import footer_img from "public/assets/images/footer2.png";
 import { FC } from "react";
 import { AiFillLinkedin, AiOutlineTwitter } from "react-icons/ai";
 import { BsGithub } from "react-icons/bs";
@@ -27,7 +27,7 @@ const Footer: FC = () => {
   ];
 
   return (
-    <div className="relative mt-44">
+    <div className="relative mt-48">
       <Image
         src={footer_img}
         alt="footer_img"
