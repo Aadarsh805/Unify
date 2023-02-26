@@ -1,3 +1,4 @@
+import { open_sans } from "@/public/assets/fonts/font";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { FC } from "react";
@@ -5,7 +6,7 @@ import type { FC } from "react";
 const Sidebar: FC = () => {
   const navLists = [
     {
-      url: "/explore",
+      url: "/explore/all",
       name: "All",
     },
     {
@@ -28,11 +29,20 @@ const Sidebar: FC = () => {
 
   const pathname = usePathname();
   return (
-    <aside className="float-left flex min-h-screen flex-col gap-5  px-[3rem] pt-[6rem] text-xl">
+    <aside
+      className="float-left flex flex-col gap-7  px-[3rem]  text-xl"
+      style={{ height: "calc(100vh - 193px)" }}
+    >
       {navLists.map((list) => (
         <Link
           href={list.url}
-          className="border-l-4  border-[#AF7A0F] px-5 py-2 text-[#AF7A0F] hover:bg-[#AF7A0F]/20 "
+          className={`border-l-2 ${
+            open_sans.className
+          }  border-[#815a0b] px-3 font-medium  ${
+            pathname !== list.url
+              ? "border-opacity-50 text-[#1C1C1C]"
+              : " border-l-[3px] font-semibold text-[#AF7A0F]"
+          }  `}
           key={list.name}
         >
           {list.name}

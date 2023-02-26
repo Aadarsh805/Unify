@@ -1,8 +1,12 @@
+"use client";
+
 import { open_sans } from "@/public/assets/fonts/font";
+import supabase from "@/server/supabase";
 import Badge from "@mui/material/Badge";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
+
 import { BsFillBellFill } from "react-icons/bs";
 import useStore from "../store/store";
 import NotificationMessage from "./NotificationMessage";
@@ -56,9 +60,31 @@ const NotificationIcon: FC = () => {
     setAnchorEl(null);
   };
 
+  const { userId, notifications, setNotifications } = useStore((state) => ({
+    userId: state.userId,
+    notifications: state.notifications,
+    setNotifications: state.setNotifications,
+  }));
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      const { data, error } = await supabase
+        .from("notification")
+        .select("*")
+        .eq("owner_id", userId);
+      if (data) {
+        setNotifications(data);
+        console.log(data, "notifidata");
+      }
+    };
+    fetchNotifications();
+  }, []);
+
+
   const handleShowAll = () => {
     setShowAll((prev) => !prev);
   };
+
 
   return (
     <div className="cursor-pointer text-2xl">
