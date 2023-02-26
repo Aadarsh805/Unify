@@ -58,12 +58,17 @@ const ProductDetailsPage: FC<PageProps> = ({ params: { productId } }) => {
     fetchProduct();
   }, []);
 
-  const { userProfile, interestedProduct } = useStore((state: any) => ({
-    userProfile: state.userProfile,
-    interestedProduct: state.interestedProduct,
-  }));
+  const { userProfile, interestedProduct, setInterestedProduct } = useStore(
+    (state: any) => ({
+      userProfile: state.userProfile,
+      interestedProduct: state.interestedProduct,
+      setInterestedProduct: state.setInterestedProduct,
+    })
+  );
   const isUser = userProfile.id;
-  const isAlreadyIntested = interestedProduct.includes(product.id) as boolean;
+  const isAlreadyIntested = interestedProduct
+    .map((prod: any) => Number(prod.product_id))
+    .includes(Number(product.id)) as boolean;
 
   const manageInterestList = async () => {
     if (isUser === owner.id) return;
@@ -71,10 +76,27 @@ const ProductDetailsPage: FC<PageProps> = ({ params: { productId } }) => {
       product_id: Number(product.id),
       interested_by: userProfile.id as string,
     };
+    const updateProduct = product;
     if (isAlreadyIntested) {
-      await deleteFromInterestedProducts(productDetails);
+      const { hasError } = await deleteFromInterestedProducts(productDetails);
+      if (!hasError) {
+        setInterestedProduct(
+          interestedProduct.filter(
+            (prod: any) => prod.product_id !== productDetails.product_id
+          )
+        );
+        updateProduct.interested_count -= 1;
+        setProduct(updateProduct);
+      }
     } else {
-      await insertToInterestedProducts(productDetails);
+      const { hasError } = await insertToInterestedProducts(productDetails);
+      if (!hasError) {
+        const inArr = interestedProduct;
+        inArr.push(productDetails);
+        setInterestedProduct(inArr);
+        updateProduct.interested_count += 1;
+        setProduct(updateProduct);
+      }
     }
   };
 
@@ -109,6 +131,7 @@ const ProductDetailsPage: FC<PageProps> = ({ params: { productId } }) => {
           </div>
           <div className="flex items-center gap-20">
             <button
+              disabled={isMyProduct}
               onClick={() => {
                 if (isUser) {
                   manageInterestList();
@@ -120,8 +143,12 @@ const ProductDetailsPage: FC<PageProps> = ({ params: { productId } }) => {
                 isUser ? `opacity-100` : `opacity-40`
               } `}
             >
-              <p className="rounded-full bg-[#Af7A0f] px-[5rem] py-4 text-[#F4F1E7]">
-                {isAlreadyIntested ? "DisInterest" : "Interest"}
+              <p className="whitespace-nowrap rounded-full bg-[hsl(40,84%,37%)] px-[5rem] py-4 text-[#F4F1E7]">
+                {isMyProduct
+                  ? "Blongs to you"
+                  : isAlreadyIntested
+                  ? "Not Interest"
+                  : "Interest"}
               </p>
             </button>
             <div className="flex items-center text-2xl font-bold">
@@ -144,7 +171,7 @@ const ProductDetailsPage: FC<PageProps> = ({ params: { productId } }) => {
                 <span className="mx-1 text-[#Af7A0f]">
                   {product.interested_count}
                 </span>
-                Intrested
+                Interested
               </p>
             </div>
           </div>

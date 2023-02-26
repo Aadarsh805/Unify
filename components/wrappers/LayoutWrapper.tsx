@@ -109,9 +109,19 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
       //getting all the products that i interested
       const { data: myInterested } = await supabase
         .from("interested_products")
-        .select("products(owner_id)")
+        .select("products(owner_id,id)")
         .eq("interested_by", myId);
-      const a: any = myInterested?.map((item: any) => item?.products?.owner_id);
+      console.log(myInterested);
+      const a: any = myInterested
+        ?.filter((item: any) => {
+          if (item?.products) return item;
+        })
+        ?.map((item: any) => {
+          return {
+            owner_id: item?.products?.owner_id,
+            product_id: item?.products?.id,
+          };
+        });
       setMyInterestedProducts(a);
       setInterestedProduct(a);
     };
