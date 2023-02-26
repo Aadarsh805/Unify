@@ -69,7 +69,7 @@ const UserProfilePage = () => {
               <Image
                 className="-z-10 h-full w-full object-cover object-center"
                 src={`${baseUrl}/${product.product_image}`}
-                alt="something"
+                alt="userproduct_img"
                 width={256}
                 height={256}
               />
