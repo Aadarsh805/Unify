@@ -144,6 +144,9 @@ const ProductDetailsPage: FC<PageProps> = ({ params: { productId } }) => {
                 isUser ? `opacity-100` : `opacity-40`
               } `}
             >
+
+             
+
               <p className="whitespace-nowrap rounded-full bg-[hsl(40,84%,37%)] px-[5rem] py-4 text-[#F4F1E7]">
                 {isMyProduct
                   ? "Belongs to you"
@@ -151,6 +154,7 @@ const ProductDetailsPage: FC<PageProps> = ({ params: { productId } }) => {
                   ? "Not Interest"
                   : "Interest"}
               </p>
+
             </button>
             <div className="flex items-center text-2xl font-bold">
               <img
