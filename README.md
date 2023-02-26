@@ -45,6 +45,9 @@ Unify promotes cultural diversity and aims to bridge cultural gaps by providing 
 
 |||
 |:----------------------------------------:|:-----------------------------------------:|
+![Desktop - 7(1)](https://user-images.githubusercontent.com/95094057/221411621-9ecedead-7382-4190-b4f9-093b82f4664b.png)
+
+![explore(1)](https://user-images.githubusercontent.com/95094057/221411632-a614938a-cbd2-449d-879a-080f904a6a4f.png)
 
 
 ## 🤖Our Tech Stack
@@ -58,10 +61,6 @@ To begin with, first, we did User Research. Next, we created the user flow and f
 - We implemented the real-time database feature using Supabase's real-time subscription API, which allowed us to push data updates to clients in real time, creating a seamless user experience.
 
 ## 📚References 
-* To design the user flow, we have used ExcaliDraw. Here is the link: [HTF Project](https://drive.google.com/file/d/17dXd3w6h0vpuxi6s9mIwu0__RoCoIfbE/view?usp=sharing) 
-
-* For documentation, we have used [Notion]() file.
-
 * To check deployment, visit this link 👉 [Unify](https://www.unifying.world/)
 
 This project is in a very early stage so anybody who's familiar with **ReactJS**/**NextJS**/**Typescript**/**TailwindCSS** can contribute. If you don't feel ready to make a contribution yet, no problem at all. You can also contribute to this `ReadMe` section or the **Documentation** part of our project.
