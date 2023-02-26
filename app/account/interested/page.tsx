@@ -1,16 +1,15 @@
 "use client";
 
-import useStore from "@/app/store/store";
 import supabase from "@/server/supabase";
+import Image from "next/image";
 import Link from "next/link";
 import { FC, useEffect, useState } from "react";
 
+const base_url =
+  "https://nxlkzsdcwscprmiqcqiu.supabase.co/storage/v1/object/public/product-images/";
+
 const InterestedPage: FC = () => {
-  const [myInterestedProducts, setMyInterestedProducts] = useState<any[]>([]);
-  const { interestedProduct, setInterestedProduct } = useStore((state) => ({
-    interestedProduct: state.interestedProduct,
-    setInterestedProduct: state.setInterestedProduct,
-  }));
+  const [myInterestedProducts, setMyInterestedProducts] = useState<any>([]);
 
   useEffect(() => {
     const getMyInterested = async () => {
@@ -22,31 +21,33 @@ const InterestedPage: FC = () => {
         .from("interested_products")
         .select("products(id, owner_id, title, product_image, category)")
         .eq("interested_by", myId);
-      const a: any = myInterested?.map(
-        (item: any) => item?.products?.owner_id
-      ) as [];
-      console.log(myInterested, "myinerkjlesl");
-      setMyInterestedProducts(a);
-      setInterestedProduct(a);
+      setMyInterestedProducts(myInterested);
     };
     getMyInterested();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // console.log(myInterestedProducts, "myintersesd");
-
   return (
-    <div className="flex w-full items-center gap-2 bg-red-200 p-4">
-      {myInterestedProducts?.map((product: any) => (
-        <Link
-          href={`/explore/${product.category}/${product.id}`}
-          key={product}
-          className="p-1 text-lg"
-        >
-          {product}
-        </Link>
-      ))}
+    <div className="px-10">
+      <div className="flex flex-wrap gap-4">
+        {myInterestedProducts?.map((product: any) => (
+          <Link
+            href={`/explore/${product.products.category}/${product.products.id}`}
+            key={product.id}
+            className="flex h-[15rem] w-[15rem] flex-col gap-2 overflow-hidden rounded-md border-[3px] border-[#Af7A0f]"
+          >
+            <Image
+              className="h-full w-full object-cover"
+              src={base_url + product.products.product_image}
+              alt=""
+              width={144}
+              height={144}
+            />
+            <p className="text-center text-lg text-black">
+              {product?.products.title}
+            </p>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 };

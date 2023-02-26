@@ -1,18 +1,17 @@
-import { FC, useState } from "react";
 import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
 import Stack from "@mui/material/Stack";
+import { FC, useState } from "react";
 
 type NotificationMessageProps = {
-  text: string;
-  username: string;
-  product?: string | undefined;
+  notification_text: string;
+  notification_type: string;
 };
 
 const NotificationMessage: FC<NotificationMessageProps> = ({
-  text,
-  username,
-  product,
+  notification_text,
+  // username,
+  // product,
+  notification_type,
 }) => {
   const [showAll, setShowAll] = useState(false);
 
@@ -23,17 +22,12 @@ const NotificationMessage: FC<NotificationMessageProps> = ({
   return (
     <>
       <Stack sx={{ width: "100%" }} spacing={2}>
-        {product ? (
-          <Alert severity="info">
-            {username} {text} {product}
-          </Alert>
+        {notification_type === "interested" ? (
+          <Alert severity="info">{notification_text}</Alert>
         ) : (
-          <Alert severity="success">
-            {text} {username}
-          </Alert>
+          <Alert severity="success">{notification_text}</Alert>
         )}
       </Stack>
-       
     </>
   );
 };
