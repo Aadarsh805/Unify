@@ -31,9 +31,7 @@ const CategoryPage = ({}: PageProps) => {
         .select("id,product_image,owner_id,category,created_at");
 
       if (data && Array.isArray(data)) {
-        if (userId) {
-          setProducts(data.filter((product) => product.owner_id !== userId));
-        } else setProducts(data);
+        setProducts(data);
       } else setProducts([]);
     }
     getProducts();
