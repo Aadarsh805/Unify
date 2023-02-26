@@ -1,11 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
+"use client";
+
 import Link from "next/link";
+import useStore from "../store/store";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { userProfile } = useStore((state: any) => {
+    return {
+      userProfile: state.userProfile,
+    };
+  });
+
+  console.log(userProfile);
+
   return (
     <main>
       <div className="flex items-center gap-5 px-[3rem] text-xl">
@@ -15,7 +26,9 @@ export default function RootLayout({
           alt=""
         />
         <div>
-          <h1 className="text-3xl font-bold text-[#Af7A0f]">Manish bisht</h1>
+          <h1 className="text-3xl font-bold text-[#Af7A0f]">
+            {userProfile.username}
+          </h1>
           <p className="text-xl text-[#1c1c1c]/90">
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Beatae,
             quo!
