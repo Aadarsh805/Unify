@@ -14,12 +14,11 @@ const Support: FC = () => {
           >
             Support Connecting Cultures and Preserving Traditions
           </h1>
-          <div className="flex items-center gap-5">
+          <div className="flex items-start gap-5">
             <Image
               src={downArrow}
               alt="downArrow_img"
-              width={256}
-              height={256}
+              className="w-[7em]"
             />
             <p
               className={`text-3xl font-medium capitalize text-[#232323] opacity-[.92] ${noto_serif.className}`}

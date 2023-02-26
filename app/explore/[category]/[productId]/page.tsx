@@ -3,6 +3,7 @@
 "use client";
 
 import useStore from "@/app/store/store";
+import { open_sans } from "@/public/assets/fonts/font";
 import deleteFromInterestedProducts from "@/server/deleteFromInterestedProducts";
 import insertToInterestedProducts from "@/server/insertToInterestedProducts";
 import supabase from "@/server/supabase";
@@ -104,21 +105,21 @@ const ProductDetailsPage: FC<PageProps> = ({ params: { productId } }) => {
   return (
     <main className="flex min-h-[85vh] items-center justify-center gap-20 px-[2rem]">
       <article className="flex w-[45%] flex-col gap-20">
-        <button className="self-start text-2xl text-[#Af7A0f]">
+        <Link href={'/explore'} className="self-start text-2xl text-[#Af7A0f]">
           {"<"} Back
-        </button>
+        </Link>
         <div className="flex flex-col gap-5">
-          <h1 className="text-6xl font-bold text-[#1C1C1C]/90">
+          <h1 className={`text-6xl font-bold text-[#1C1C1C]/90 ${open_sans.className}`}>
             {product.title}
           </h1>
           <p className="text-xl text-[#1c1c1c]/90">{product.description}</p>
 
           <div className="flex flex-col gap-3 text-2xl font-bold text-[#1c1c1c]/90">
             <p>
-              From <span className="text-[#Af7A0f]">{product.culture}</span>
+              From: <span className="text-[#Af7A0f]">{product.culture}</span>
             </p>
             <p>
-              Posted By{" "}
+              Posted By:{" "}
               {isMyProduct ? (
                 <Link href={`/account`} className="text-[#Af7A0f]">
                   {owner.username}
@@ -146,7 +147,7 @@ const ProductDetailsPage: FC<PageProps> = ({ params: { productId } }) => {
             >
               <p className="whitespace-nowrap rounded-full bg-[hsl(40,84%,37%)] px-[5rem] py-4 text-[#F4F1E7]">
                 {isMyProduct
-                  ? "Blongs to you"
+                  ? "Belongs to you"
                   : isAlreadyIntested
                   ? "Not Interest"
                   : "Interest"}
