@@ -132,6 +132,7 @@ const ProductDetailsPage: FC<PageProps> = ({ params: { productId } }) => {
           </div>
           <div className="flex items-center gap-20">
             <button
+              disabled={isMyProduct}
               onClick={() => {
                 if (isUser) {
                   manageInterestList();
@@ -144,7 +145,11 @@ const ProductDetailsPage: FC<PageProps> = ({ params: { productId } }) => {
               } `}
             >
               <p className="whitespace-nowrap rounded-full bg-[hsl(40,84%,37%)] px-[5rem] py-4 text-[#F4F1E7]">
-                {isAlreadyIntested ? "Not Interest" : "Interest"}
+                {isMyProduct
+                  ? "Blongs to you"
+                  : isAlreadyIntested
+                  ? "Not Interest"
+                  : "Interest"}
               </p>
             </button>
             <div className="flex items-center text-2xl font-bold">

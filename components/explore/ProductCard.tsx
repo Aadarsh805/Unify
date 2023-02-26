@@ -26,6 +26,7 @@ function ProductCard({ product }: Props) {
   );
 
   const isUser = userProfile.id;
+  const isMyProduct = isUser === product.owner_id;
   const isAlreadyIntested = interestedProduct
     .map((prod: any) => Number(prod.product_id))
     .includes(Number(product.id)) as boolean;
@@ -54,6 +55,8 @@ function ProductCard({ product }: Props) {
     }
   };
 
+  console.log(isMyProduct);
+
   return (
     <div className="relative flex h-[25rem] w-[20rem] flex-col overflow-hidden rounded-t-[15rem] rounded-b-[.3rem] border-[3px] border-[#Af7A0f] ">
       <Link href={`/explore/cat/${product.id}`} className="h-full w-full">
@@ -66,6 +69,7 @@ function ProductCard({ product }: Props) {
         />
       </Link>
       <button
+        disabled={isMyProduct}
         onClick={() => {
           if (isUser) {
             manageInterestList();
@@ -79,7 +83,11 @@ function ProductCard({ product }: Props) {
           isUser ? `opacity-100` : `opacity-40`
         } `}
       >
-        {isAlreadyIntested ? "Not Interested" : "Interested"}
+        {isMyProduct
+          ? "Blongs to you"
+          : isAlreadyIntested
+          ? "Not Interested"
+          : "Interested"}
       </button>
     </div>
   );

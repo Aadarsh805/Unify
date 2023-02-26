@@ -1,6 +1,7 @@
 "use client";
 
 import ProductCards from "@/app/components/ProductCards";
+import useStore from "@/app/store/store";
 import { noto_serif, open_sans } from "@/public/assets/fonts/font";
 import supabase from "@/server/supabase";
 import Image from "next/image";
@@ -12,6 +13,11 @@ import { useEffect, useState } from "react";
 type PageProps = {};
 
 const CategoryPage = ({}: PageProps) => {
+  const { userId } = useStore((state: any) => {
+    return {
+      userId: state.userId,
+    };
+  });
   const path = usePathname();
 
   let category = "";
@@ -25,11 +31,13 @@ const CategoryPage = ({}: PageProps) => {
         .select("id,product_image,owner_id,category,created_at");
 
       if (data && Array.isArray(data)) {
-        setProducts(data);
+        if (userId) {
+          setProducts(data.filter((product) => product.owner_id !== userId));
+        } else setProducts(data);
       } else setProducts([]);
     }
     getProducts();
-  }, [category]);
+  }, [category, userId]);
 
   return (
     <main
