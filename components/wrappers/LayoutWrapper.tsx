@@ -27,12 +27,14 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
     userProfile,
     userId,
     setUserId,
+    setNotifications,
   } = useStore((state) => ({
     interestedProduct: state.interestedProduct,
     setInterestedProduct: state.setInterestedProduct,
     userProfile: state.userProfile,
     userId: state.userId,
     setUserId: state.setUserId,
+    setNotifications: state.setNotifications,
   }));
 
   const { setUserProfile } = useStore((state: any) => ({
@@ -120,6 +122,18 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
 
   useEffect(() => {
     if (interestedBy && interestedBy !== userId) {
+      const fetchNotifications = async () => {
+        const { data, error } = await supabase
+          .from("notification")
+          .select("*")
+          .eq("owner_id", userId);
+        if (data) {
+          setNotifications(data);
+          console.log(data, "notifidata");
+        }
+      };
+      fetchNotifications();
+
       const getNotification = async () => {
         const { data: userData } = await supabase
           .from("users")
@@ -154,6 +168,7 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
           pushInterestedNoti();
         }
       };
+
       if (myInterestedProducts.includes(interestedBy)) {
         console.log("Match found with" + "" + interestedBy);
         const pushMatchNoti = async () => {
@@ -189,6 +204,7 @@ const LayoutWrapper: FC<LayoutWrapperProps> = ({ children }) => {
       }
       getNotification();
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [interestedBy]);
 
