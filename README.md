@@ -82,14 +82,15 @@ No worries! Here's a quick guide,
 2. Fork the repository into your own account.
 3. Clone the repo you have forked in your local machine using `git clone https://github.com/<Your-name>/Unify.git`
 4. Create a new branch for your fix by using the command `git checkout -b YourName-branch-name `
-5. Install node Modules by typing the command `yarn`. Start the development server using the command `yarn run dev`  
-6. Make the changes you wish to do and stage them using the command `git add files-you-have-changed ` or use `git add .`
-7. Use the command `git commit -m "Short description of the changes"` to describe the changes you have done with a message.
-8. Push the changes to your remote repository using `git push origin your-branch-name`
-9. Submit a PR(pull request) to the upstream repository `Aadarsh805/Unify` with a title and a small description.
-10. Wait for the pull request to be reviewed by us.
-11. Make appropriate changes if the maintainer recommends you to and submit it.
-12. Await for your contribution to be merged into the repository.
+5. Install node Modules by using the command `yarn`
+6. Start the development server using the command `yarn run dev`  
+7. Make the changes you wish to do and stage them using the command `git add files-you-have-changed ` or use `git add .`
+8. Use the command `git commit -m "Short description of the changes"` to describe the changes you have done with a message.
+9. Push the changes to your remote repository using `git push origin your-branch-name`
+10. Submit a PR(pull request) to the upstream repository `Aadarsh805/Unify` with a title and a small description.
+11. Wait for the pull request to be reviewed by us.
+12. Make appropriate changes if the maintainer recommends you to and submit it.
+13. Await for your contribution to be merged into the repository.
 
 Checkout the [Contributing.md](CONTRIBUTING.md) file before contributing.
 
