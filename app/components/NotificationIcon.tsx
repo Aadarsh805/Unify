@@ -1,8 +1,11 @@
+"use client";
+
 import { open_sans } from "@/public/assets/fonts/font";
+import supabase from "@/server/supabase";
 import Badge from "@mui/material/Badge";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { BsFillBellFill } from "react-icons/bs";
 import useStore from "../store/store";
 
@@ -24,6 +27,26 @@ const NotificationIcon: FC = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const { userId, notifications, setNotifications } = useStore((state) => ({
+    userId: state.userId,
+    notifications: state.notifications,
+    setNotifications: state.setNotifications,
+  }));
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      const { data, error } = await supabase
+        .from("notification")
+        .select("*")
+        .eq("owner_id", userId);
+      if (data) {
+        setNotifications(data);
+        console.log(data, "notifidata");
+      }
+    };
+    fetchNotifications();
+  }, []);
+
   return (
     <div className="cursor-pointer text-2xl">
       <Badge badgeContent={notificationCount} color="primary">
@@ -45,7 +68,7 @@ const NotificationIcon: FC = () => {
         }}
         className={` mt-4 -ml-24 ${open_sans.className}`}
       >
-        {notification.map((noti, indx) => (
+        {notifications.map((noti: any, indx: any) => (
           <MenuItem key={indx} onClick={handleClose}>
             {noti}
           </MenuItem>

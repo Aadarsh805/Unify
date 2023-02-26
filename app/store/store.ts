@@ -28,6 +28,8 @@ type StoreValues = {
   setNotificationCount: (count: number) => void;
   setMyProducts: (products: any) => void;
   setUserId: (id: string) => void;
+  notifications: any;
+  setNotifications: (value: any) => void;
 };
 
 const useStore = create<StoreValues>((set, get) => ({
@@ -41,6 +43,7 @@ const useStore = create<StoreValues>((set, get) => ({
   baseUrl:
     "https://nxlkzsdcwscprmiqcqiu.supabase.co/storage/v1/object/public/product-images",
   userProfile: { id: "", username: "", email: "" },
+  notifications: [],
 
   setEmail: (email: string) => {
     set({
@@ -85,6 +88,11 @@ const useStore = create<StoreValues>((set, get) => ({
   setUserId: (id: string) => {
     set({
       userId: id,
+    });
+  },
+  setNotifications: (value: any) => {
+    set({
+      notifications: value,
     });
   },
 }));
