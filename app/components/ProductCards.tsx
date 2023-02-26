@@ -29,7 +29,7 @@ function ProductCards({ products }: Props) {
         },
         1024: {
           centeredSlides: false,
-          slidesPerView: 3,
+          slidesPerView: 3.5,
         },
       },
     });
