@@ -33,11 +33,6 @@ export default function RootLayout({
   return (
     <main>
       <div className="flex items-center gap-16 px-[3rem] text-xl">
-        <img
-          className="w-[10rem] rounded-full"
-          src="https://randomuser.me/api/portraits/men/23.jpg"
-          alt=""
-        />
         <div>
           <h1 className="text-3xl font-bold text-[#Af7A0f]">
             {owner.username}
